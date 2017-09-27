@@ -9,8 +9,6 @@ public class Driver {
 		
 		System.out.println("Hello AI");
 		
-		// spin up the UI
-		UserInterface window = new UserInterface();
 		
 		// start the game
 		Game game = new Game();

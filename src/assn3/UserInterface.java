@@ -25,7 +25,7 @@ public class UserInterface extends JFrame {
 	}
 
 	private void initCircles() {
-		for (int i = 0; i < circlePanels.length; i++) {
+		for (int i = circlePanels.length -1; i >= 0; i--) {
 			for (int j = 0; j < circlePanels[i].length; j++) {
 				Circle circle = new Circle();
 				circlePanels[i][j] = circle;
@@ -40,20 +40,6 @@ public class UserInterface extends JFrame {
 
 		public Circle() {
 			setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			addMouseListener(new MouseAdapter() {
-				public void mousePressed(MouseEvent e) {
-					if (isDraw()) {
-						setDraw(false);
-					} else {
-						setDraw(true);
-					}
-				}
-			});
-			
-			
-			
-			
-			
 			
 		}
 
@@ -85,6 +71,17 @@ public class UserInterface extends JFrame {
 			}
 		}
 
+	}
+	
+	
+	public void applyMove(int row, int column, int player) {
+		if (player == 1) {
+			this.circlePanels[row][column].setColor(Color.RED);
+		}else {
+			this.circlePanels[row][column].setColor(Color.BLUE);
+
+		}
+		this.circlePanels[row][column].setDraw(true);
 	}
 	
 	
