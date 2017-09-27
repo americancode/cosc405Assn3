@@ -7,11 +7,21 @@ public class Driver {
 	public static void main(String[] args) {
 		
 		System.out.println("Hello AI");
-		Tester t = new Tester();
-		t.printerTest();
+		
+		//spin up the UI
+		
 		UserInterface window = new UserInterface();
 		
-		//Test
+		
+		//start the game
+		Game game = new Game();
+		game.startGame();
+		
+		
+		
+		
+		MoveMaker t = new MoveMaker();
+		t.printerTest();
 		
 		
 		

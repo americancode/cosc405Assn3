@@ -1,9 +1,22 @@
 package assn3;
 
-public class Tester {
+//imports
+
+public class MoveMaker {
+	// AI attributes for the heuristic search
+	
 	
 	public void printerTest() { 
 		System.out.println("hellow from the tester");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
