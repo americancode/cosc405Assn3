@@ -8,9 +8,11 @@ import javax.swing.*;
 
 public class UserInterface extends JFrame {
 
-	private static final int GRID_SIZE = 7;
-	private Circle[][] circlePanels = new Circle[GRID_SIZE][GRID_SIZE];
-	private JPanel gridPanel = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE));
+	private static final int ROWS = 6;
+	private static final int COLS = 7;
+	
+	private Circle[][] circlePanels = new Circle[ROWS][COLS];
+	private JPanel gridPanel = new JPanel(new GridLayout(ROWS, COLS));
 
 	public UserInterface() {
 		initCircles();
