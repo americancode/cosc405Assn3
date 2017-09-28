@@ -1,5 +1,5 @@
 package assn3;
-# ITS HERE
+
 import java.util.LinkedList;
 
 /**
