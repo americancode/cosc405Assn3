@@ -9,7 +9,6 @@ public class Driver {
 		
 		System.out.println("Hello AI");
 		
-		
 		// start the game
 		Game game = new Game();
 		game.startGame();
