@@ -39,9 +39,9 @@ public class Game {
 	 */
 	public void startGame() {
 		for(;;) {
-			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, "Please ENTER your NAME here");
+			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
 			optionPane.setWantsInput(true);
-			JDialog dialog = optionPane.createDialog(null, "TEST");
+			JDialog dialog = optionPane.createDialog(null, "Wecome!");
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
 			String usrInput = (String) optionPane.getInputValue();			
