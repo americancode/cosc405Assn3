@@ -22,7 +22,7 @@ public class Node {
 			this.colsFilled.add(0);
 		}
 		
-		this.gameState = new int[7][6];
+		this.gameState = new int[6][7];
 		//initialize with an empty game state
 		for(int a = 0; a < this.gameState.length; a++) {
 			for(int b = 0; b < this.gameState[a].length; b++) {

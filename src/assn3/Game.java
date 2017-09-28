@@ -143,9 +143,6 @@ public class Game {
 		
 		
 		
-		
-		
-		
 		return randomNum;
 	}
 	
@@ -189,6 +186,7 @@ public class Game {
 			}
 			System.out.println("");
 		}
+		System.out.println("\n\n");
 	}
 	
 	
