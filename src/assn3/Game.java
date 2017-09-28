@@ -91,7 +91,6 @@ public class Game {
 		}
 		int row = generateRow(col);
 		
-		
 		if (validateMove(col)) {
 			int playerNum = 0;
 			if(usersTurn) {
@@ -103,7 +102,20 @@ public class Game {
 		
 		this.usersTurn = !this.usersTurn;
 		printState();
-		getAndApplyMove();
+		
+		StateSpace blankSpace = new StateSpace();
+		int win = blankSpace.winningState(this.currentGameState);
+		
+		if (win == 0) {
+			getAndApplyMove();
+		} else {
+			if (win == 1) {
+				JOptionPane.showMessageDialog(null, "Player 1  WON!!");
+			}else {
+				JOptionPane.showMessageDialog(null, "Player 2  WON!!");
+			}
+		}
+		
 	}
 	
 	/**

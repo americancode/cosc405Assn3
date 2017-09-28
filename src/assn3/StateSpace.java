@@ -16,6 +16,10 @@ public class StateSpace {
 		this.root = currentGameState;
 		this.currentPlayer = currentPlayer;
 	}
+	
+	public StateSpace() {
+		
+	}
 
 	public void bestFirstSearch() {
 		LinkedList<Node> openList = new LinkedList<Node>();
@@ -53,7 +57,7 @@ public class StateSpace {
 
 		
 		
-		return DEPTH;
+		return 1;
 	}
 	
 }
