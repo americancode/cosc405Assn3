@@ -64,8 +64,8 @@ public class Game {
 		//apply move to the UI
 		this.ui.applyMove(row, col, playerNum);
 		this.currentGameState = new Node(col, getPlayerInt(this.usersTurn));
-		this.usersTurn = !this.usersTurn;
 		updateState(row, col, getPlayerInt(this.usersTurn));
+		this.usersTurn = !this.usersTurn;
 		getAndApplyMove();
 		
 	}
@@ -136,10 +136,6 @@ public class Game {
 		}
 		
 		//StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
-		
-		
-		
-		
 		
 		
 		
