@@ -40,10 +40,18 @@ public class StateSpace {
 		}
 	}
 	
-	public int winningState(Node node) {
+	public int winningState(Node currentState) {
 		boolean winnerIsP1 = false;
 		boolean winnerIsP2 = false;
+		Node state = currentState;
+		int[][] gameState = state.getGameState();
 		
+		for(int a = 0; a < gameState.length; a++) {
+			for(int b = 0; b < gameState[a].length; b++) {
+				System.out.println(gameState[a][b]);
+			}
+		}
+
 		
 		
 		return DEPTH;
