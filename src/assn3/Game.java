@@ -63,9 +63,9 @@ public class Game {
 		}
 		//apply move to the UI
 		this.ui.applyMove(row, col, playerNum);
-		
 		this.currentGameState = new Node(col, getPlayerInt(this.usersTurn));
 		this.usersTurn = !this.usersTurn;
+		updateState(row, col, getPlayerInt(this.usersTurn));
 		getAndApplyMove();
 		
 	}
@@ -90,9 +90,11 @@ public class Game {
 				playerNum = 1;
 			}
 			this.ui.applyMove(row, col, playerNum);
+			updateState(row, col, getPlayerInt(this.usersTurn));
 		}
 		
 		this.usersTurn = !this.usersTurn;
+		printState();
 		getAndApplyMove();
 	}
 	
@@ -160,7 +162,6 @@ public class Game {
 		int row = this.colsFilled.get(col);
 		int newRow = row + 1;
 		this.colsFilled.set(col, newRow);
-		
 		return row;
 	}
 	
@@ -169,6 +170,24 @@ public class Game {
 			return 1;
 		}else {
 			return 2;
+		}
+	}
+	
+	private void updateState(int row, int col, int playerNum) {
+		int[][] game = this.currentGameState.getGameState();
+		
+		game[row][col] = playerNum;
+		this.currentGameState.setGameState(game);
+	}
+	
+	
+	public void printState() {
+		int[][] game = this.currentGameState.getGameState();
+		for (int i = game.length -1; i >=0 ; i--) {
+			for (int j = 0; j < game[i].length; j++) {
+				System.out.printf("%d  ", game[i][j]);
+			}
+			System.out.println("");
 		}
 	}
 	
