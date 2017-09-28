@@ -15,22 +15,20 @@ public class Game {
 	private boolean usersTurn = false;
 	private UserInterface ui = null;
 	//This is currently used for the UI but may be able to use it other places
-	private Node[][] gameState;
+	private Node currentGameState;
 	private LinkedList<Integer> colsFilled;
-	
 	
 	
 	/**
 	 * Constructor for the game class
+	 * 
 	 */
 	public Game() {
-		this.gameState = new Node[7][6];
 		this.ui = new UserInterface();
 		this.colsFilled = new LinkedList<Integer>();
 		for(int i=0; i < 7; i++) {
 			colsFilled.add(0);
 		}
-		fillStates();
 
 	}
 	
@@ -46,13 +44,33 @@ public class Game {
 			usersTurn = false;
 		}
 		
-		getMove();
+
+		int col;
+		if (usersTurn) {
+			col = getUserMove();
+		} else {
+			col = 3; //Maybe some thing else for the first bot move????
+		}
+		int row = generateRow(col);
+
+		int playerNum = 0;
+		if (usersTurn) {
+			playerNum = 1;
+		}
+		//apply move to the UI
+		this.ui.applyMove(row, col, playerNum);
 		
+		this.currentGameState = new Node(col, getPlayerInt(this.usersTurn));
+		this.usersTurn = !this.usersTurn;
+		getAndApplyMove();
 		
 	}
+		
+		
+		
 	
 	
-	public void getMove() {
+	public void getAndApplyMove() {
 		int col;
 		if (usersTurn) {
 			col = getUserMove();
@@ -71,23 +89,30 @@ public class Game {
 		}
 		
 		this.usersTurn = !this.usersTurn;
-		
-		getMove();
-		
-
+		getAndApplyMove();
 	}
 	
-	
+	/**
+	 * Get an integer from the user, Nothing else
+	 * 
+	 * @return the integer from the user
+	 */
 	public int getUserMove() {
 		boolean goodInput = false;
 		int column = 0;
 		while (!goodInput) {
 			String input = JOptionPane.showInputDialog("Enter your move 0 to 6");
+			boolean p1 = false;
+			boolean p2 = false;
 			if(input.matches("[0-6]{1}")){
-				goodInput = true;
+				p1 = true;
 				column = Integer.parseInt(input);
 			}
+			if (validateMove(column)) {
+				p2 = true;	
+			}
 			
+			goodInput = (p1 && p2);
 		}
 		
 		
@@ -95,22 +120,28 @@ public class Game {
 	}
 	
 	public int getBotMove(){
-		int randomNum =  (int)(Math.random() * 7); 
-		return randomNum;
-	}
-	
-	
-	
-	// Used for the UI but initializes the nodes in the matrix
-	public void fillStates() {
-		for(int i = 0; i < this.gameState.length; i++) {
-			for (int j = 0; j < this.gameState[i].length; j++) {
-				Node n = new Node(i, j);
-				this.gameState[i][j] = n;
+		boolean goodInput = false;
+		int randomNum = 0;
+		while (!goodInput) {
+			randomNum =  (int)(Math.random() * 7);
+			if (validateMove(randomNum)) {
+				 goodInput = true;	
 			}
 		}
+		
+		StateSpaceGraph graph = new StateSpaceGraph(this.currentGameState, getPlayerInt(this.usersTurn));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return randomNum;
 	}
-	
 	
 	private boolean validateMove(int col) {
 		int filled = this.colsFilled.get(col);
@@ -129,8 +160,19 @@ public class Game {
 		return row;
 	}
 	
+	private int getPlayerInt(boolean usersTurn) {
+		if (usersTurn) {
+			return 1;
+		}else {
+			return 2;
+		}
+	}
 	
 	
+	
+	
+	
+	// 4 functions to check for a win all called from a parent function.
 	
 	
 	

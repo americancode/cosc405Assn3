@@ -79,16 +79,10 @@ public class UserInterface extends JFrame {
 			this.circlePanels[row][column].setColor(Color.RED);
 		}else {
 			this.circlePanels[row][column].setColor(Color.BLUE);
-
 		}
 		this.circlePanels[row][column].setDraw(true);
 	}
 	
 	
 	
-	
-	
-	
-
-
 }
