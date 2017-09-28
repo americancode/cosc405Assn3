@@ -21,7 +21,6 @@ public class StateSpace {
 		LinkedList<Node> openList = new LinkedList<Node>();
 		LinkedList<Node> closedList = new LinkedList<Node>();
 		
-		
 		while (openList.size() > 0) {
 			Node X = openList.get(0);
 		}

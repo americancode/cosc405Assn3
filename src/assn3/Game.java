@@ -2,6 +2,8 @@ package assn3;
 
 import java.util.LinkedList;
 
+import javax.swing.JDialog;
+
 /**
  * This class should be where the game is controlled.
  * 
@@ -37,8 +39,14 @@ public class Game {
 	 */
 	public void startGame() {
 		for(;;) {
-			String usrInput = JOptionPane.showInputDialog("Do you want to move first y/n?");
+			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, "Please ENTER your NAME here");
+			optionPane.setWantsInput(true);
+			JDialog dialog = optionPane.createDialog(null, "TEST");
+			dialog.setLocation(100, 220);
+			dialog.setVisible(true);
+			String usrInput = (String) optionPane.getInputValue();			
 			usrInput = usrInput.toLowerCase();
+			
 			if (usrInput.equals("y")) {
 				usersTurn = true;
 				break;
