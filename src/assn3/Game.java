@@ -129,7 +129,7 @@ public class Game {
 			}
 		}
 		
-		StateSpaceGraph graph = new StateSpaceGraph(this.currentGameState, getPlayerInt(this.usersTurn));
+		//StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
 		
 		
 		
@@ -167,12 +167,6 @@ public class Game {
 			return 2;
 		}
 	}
-	
-	
-	
-	
-	
-	// 4 functions to check for a win all called from a parent function.
 	
 	
 	
