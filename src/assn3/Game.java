@@ -36,12 +36,16 @@ public class Game {
 	 * This method starts the game
 	 */
 	public void startGame() {
-		String usrInput = JOptionPane.showInputDialog("Do you want to move first y/n?");
-		usrInput = usrInput.toLowerCase();
-		if (usrInput.equals("y")) {
-			usersTurn = true;
-		} else if (usrInput.equals("n")){
-			usersTurn = false;
+		for(;;) {
+			String usrInput = JOptionPane.showInputDialog("Do you want to move first y/n?");
+			usrInput = usrInput.toLowerCase();
+			if (usrInput.equals("y")) {
+				usersTurn = true;
+				break;
+			} else if (usrInput.equals("n")){
+				usersTurn = false;
+				break;
+			} 
 		}
 		
 
