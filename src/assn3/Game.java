@@ -108,7 +108,7 @@ public class Game {
 			String input = JOptionPane.showInputDialog("Enter your move 0 to 6");
 			boolean p1 = false;
 			boolean p2 = false;
-			if(input.matches("[0-6]{1}")){
+			if(input.matches("[0-6]{1}")) {
 				p1 = true;
 				column = Integer.parseInt(input);
 			}

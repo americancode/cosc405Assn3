@@ -40,4 +40,13 @@ public class StateSpace {
 		}
 	}
 	
+	public int winningState(Node node) {
+		boolean winnerIsP1 = false;
+		boolean winnerIsP2 = false;
+		
+		
+		
+		return DEPTH;
+	}
+	
 }
