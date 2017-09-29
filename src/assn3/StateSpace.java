@@ -104,11 +104,28 @@ public class StateSpace {
 				if (player == 2 ){
 					player2Count++;
 					player1Count = 0;
+					
+					// for empty gap bug
+					if (player1Count == 4){
+						break;
+					}
+					
 				}
 				
 				else if (player == 1){
 					player1Count++;
 					player2Count = 0;
+					
+					// for empty gap bug
+					if (player2Count == 4){
+						break;
+					}
+					
+				}
+				else{
+					player1Count = 0;
+					player2Count = 0;
+					
 				}
 		
 			}
