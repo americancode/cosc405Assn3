@@ -45,6 +45,8 @@ public class StateSpace {
 		}
 	}
 	
+	/** determine if there is a winning state **/
+	
 	public int winningState(Node currentState) {
 		int playerWin = 0;
 		
@@ -59,12 +61,13 @@ public class StateSpace {
 		if (playerWin != 0){
 			return playerWin;
 		}
-//		
-//		playerWin += diagonal1WinState( currentState );
-//		
-//		if (playerWin != 0){
-//			return playerWin;
-//		}
+		
+		playerWin += diagonal1WinState( currentState );
+		
+		if (playerWin != 0){
+			return playerWin;
+		}
+		
 //		playerWin += diagonal2WinState( currentState );
 //		
 		return playerWin;
@@ -83,49 +86,29 @@ public class StateSpace {
 			int player2Count = 0;
 			int a = 0;	// col
 			
-			// checks the y axis
+			// checks along the y axis
 			for(int b = gameState.length-1; b > 0; b--) {
-				int player = gameState[b][a];
-				
-				
-					int c = a; // col
-					int d = b; // row
 					
+					int x = diagonalCheck(gameState, b, a, player1Count, player2Count);
 					
-					while (d < gameState.length){
-					
-						
-						player = gameState[d][c];
-						
-						if (player == 1){
-							player1Count++;
-							player2Count = 0;
-						}
-						else if (player == 2){
-							player2Count++;
-							player1Count = 0;
-						}
-						else{
-							player1Count = 0;
-							player2Count = 0;
-						}
-						c++;
-						d++;
-					
-					
+					if (x != 0){
+						return x;
 					}
-					// if to check if there is a count of 4
-					if (player1Count == 4){
-						return 1;
-					}
-					
-					player1Count = 0;
-					player2Count = 0;
-					
 				
-		
+			}
+			
+			// checks along the x axis
+			int b = 0; // row
+			while (a < gameState[0].length){
 				
-		}
+				int x = diagonalCheck(gameState, b, a, player1Count, player2Count);
+				
+				if (x != 0){
+					return x;
+				}
+				
+				a++;
+			}
 
 		return 0;
 	}
@@ -209,6 +192,7 @@ public class StateSpace {
 
 	}
 	
+	/** add number of counts to appropriate player **/
 	
 	private int[] addPlayerCount(int player, int player1Count, int player2Count){
 		int [] playerCounts = new int [2];
@@ -237,4 +221,41 @@ public class StateSpace {
 	}
 	
 	
+	private int diagonalCheck(int [][] gameState, int row, int col, int player1Count, int player2Count){
+		 
+		while (row < gameState.length){
+			
+		
+			
+			try{
+				
+				int player = gameState[row][col];
+				int [] playerCounts = addPlayerCount(player, player1Count, player2Count);
+				player1Count = playerCounts[0];
+				player2Count = playerCounts[1];
+			
+			}
+			
+			catch (ArrayIndexOutOfBoundsException e){
+				
+				
+			}
+	
+			
+
+			if (player1Count == 4){
+				return 1;
+			}
+			else if (player2Count == 4){
+				return 2;
+			}
+			
+			col++;
+			row++;
+		
+		}
+		
+		return 0;
+		
+	}
 }
