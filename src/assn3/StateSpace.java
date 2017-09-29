@@ -45,6 +45,11 @@ public class StateSpace {
 		}
 	}
 	
+	
+	
+	
+	
+	
 	/** determine if there is a winning state **/
 	
 	public int winningState(Node currentState) {
@@ -129,6 +134,7 @@ public class StateSpace {
 			for(int b = gameState.length-1; b > 0; b--) {
 					
 					int x = diagonalCheck(gameState, b, a, player1Count, player2Count, slope);
+					
 					
 					if (x != 0){
 						return x;
@@ -252,10 +258,12 @@ public class StateSpace {
 		
 	}
 	
+	/** Check for diagonal win **/
 	
 	private int diagonalCheck(int [][] gameState, int row, int col, int player1Count, int player2Count, int slope){
 		 
-		while (row < gameState.length){
+		
+		while (row < gameState.length && col < gameState[0].length){
 			
 		
 			
@@ -270,6 +278,7 @@ public class StateSpace {
 			
 			catch (ArrayIndexOutOfBoundsException e){
 				// catch off board nodes
+				return 0;
 			}
 	
 			
@@ -281,8 +290,13 @@ public class StateSpace {
 				return 2;
 			}
 			
-			col += slope;
+			if (slope == -1){
+				row++;
+			}
+			else{
 			row += slope;
+			}
+			col += slope;
 		
 		}
 		
