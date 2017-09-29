@@ -50,6 +50,7 @@ public class Game {
 			    	System.exit(0);
 			    }
 			});
+			dialog.setLocation(dialog.getLocation());
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
 			String usrInput = (String) optionPane.getInputValue();			
@@ -69,7 +70,7 @@ public class Game {
 		if (usersTurn) {
 			col = getUserMove();
 		} else {
-			col = 3; //Maybe some thing else for the first bot move????
+			col = 3; // Maybe some thing else for the first bot move????
 		}
 		int row = generateRow(col);
 
