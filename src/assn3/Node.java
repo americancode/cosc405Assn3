@@ -7,7 +7,7 @@ public class Node {
 	private LinkedList<Node> childrenList;
 	private boolean isRootNode = false;
 	private int heuristicValue;
-	private LinkedList<Integer> colsFilled;
+	private LinkedList<Integer> currentIndex;
 	
 	/**
 	 * The constructor for the state space START ONLY
@@ -16,10 +16,10 @@ public class Node {
 	public Node(int col, int player) {
 		this.isRootNode = true;
 		this.childrenList = new LinkedList<Node>();
-		this.colsFilled = new LinkedList<Integer>();
+		this.currentIndex = new LinkedList<Integer>();
 		
 		for(int i = 0; i < 7; i ++) {
-			this.colsFilled.add(0);
+			this.currentIndex.add(0);
 		}
 		
 		this.gameState = new int[6][7];
@@ -31,19 +31,19 @@ public class Node {
 		}
 		
 		this.gameState[0][col] = player; // the first play of the game
-		this.colsFilled.set(col, 1);
+		this.currentIndex.set(col, 1);
 		
 	}
 	
 	public Node() {
 		for(int i = 0; i < 7; i ++) {
-			this.colsFilled.add(0);
+			this.currentIndex.add(0);
 		}
 	}
 	
 	/**
 	 * Generates the children on the given node
-	 * @param currentPlayer
+	 * @param currentPlayer / the opposite of the parent node player.  The current player for generated child nodes
 	 * @return
 	 */
 	public void getAndSetChildren(int currentPlayer) {
@@ -51,22 +51,39 @@ public class Node {
 		for(int i = 0; i < 7; i++) {
 			Node tempNode = new Node();
 			tempNode.gameState = getState(i, currentPlayer);
-			tempNode.colsFilled = this.colsFilled;
-			int row = tempNode.colsFilled.get(i);
-			int newRow = row + 1;
-			tempNode.colsFilled.set(i, newRow);
-			childList.add(tempNode);
+			tempNode.currentIndex = this.currentIndex;// setting the parent list of indexes to the child list of indexes
+			if (validateMove(i)) { // if the proposed move [1-6] creates a possible game state add it to the list
+				int row = tempNode.currentIndex.get(i);
+				int newRow = row + 1;
+				tempNode.currentIndex.set(i, newRow);
+				childList.add(tempNode);
+			}
+			
 		}
 
 		this.childrenList = childList;
 	}
 	
+	/** a pre-validation method to validate the player BEFORE generating the row and incrementing currentIndex
+	 * 
+	 * @param col
+	 * @return
+	 */
+	private boolean validateMove(int col) {
+		int filled = this.currentIndex.get(col);
+		if (filled < 6) {
+			return true;
+		}else {
+			return false;
+		}	
+	}
+	
 	
 	private int[][] getState(int col, int player) {
 		int[][]	state = this.gameState;	
-		int row = this.colsFilled.get(col);
+		int row = this.currentIndex.get(col);
 		int newRow = row + 1;
-		this.colsFilled.set(col, newRow);
+		this.currentIndex.set(col, newRow);
 		state[row][col] = player;
 		return state;
 	}
@@ -103,12 +120,12 @@ public class Node {
 		this.heuristicValue = heuristicValue;
 	}
 
-	public LinkedList<Integer> getColsFilled() {
-		return colsFilled;
+	public LinkedList<Integer> getcurrentIndex() {
+		return currentIndex;
 	}
 
-	public void setColsFilled(LinkedList<Integer> colsFilled) {
-		this.colsFilled = colsFilled;
+	public void setcurrentIndex(LinkedList<Integer> currentIndex) {
+		this.currentIndex = currentIndex;
 	}
 	
 	

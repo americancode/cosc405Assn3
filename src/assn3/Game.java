@@ -20,7 +20,7 @@ public class Game {
 	private UserInterface ui = null;
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
-	private LinkedList<Integer> colsFilled;
+	private LinkedList<Integer> currentIndex;
 	
 	
 	/**
@@ -29,9 +29,9 @@ public class Game {
 	 */
 	public Game() {
 		this.ui = new UserInterface();
-		this.colsFilled = new LinkedList<Integer>();
+		this.currentIndex = new LinkedList<Integer>();
 		for(int i=0; i < 7; i++) {
-			colsFilled.add(0);
+			currentIndex.add(0);
 		}
 
 	}
@@ -99,19 +99,17 @@ public class Game {
 			col = getBotMove();
 		}
 		int row = generateRow(col);
-		
-		if (validateMove(col)) {
-			int playerNum = 0;
-			if(usersTurn) {
-				playerNum = 1;
-			}
-			this.ui.applyMove(row, col, playerNum);
-			updateState(row, col, getPlayerInt(this.usersTurn));
+
+		int playerNum = 0;
+		if (usersTurn) {
+			playerNum = 1;
 		}
-		
+		this.ui.applyMove(row, col, playerNum);
+		updateState(row, col, getPlayerInt(this.usersTurn));
+
 		this.usersTurn = !this.usersTurn;
 		printState();
-		
+
 		StateSpace blankSpace = new StateSpace();
 		int win = blankSpace.winningState(this.currentGameState);
 		
@@ -184,9 +182,14 @@ public class Game {
 		return randomNum;
 	}
 	
+	/** a pre-validation method to validate the player BEFORE generate row is called
+	 * 
+	 * @param col
+	 * @return
+	 */
 	private boolean validateMove(int col) {
-		int filled = this.colsFilled.get(col);
-		if (filled < 7) {
+		int filled = this.currentIndex.get(col);
+		if (filled < 6) {
 			return true;
 		}else {
 			return false;
@@ -194,9 +197,9 @@ public class Game {
 	}
 	
 	private int generateRow(int col) {
-		int row = this.colsFilled.get(col);
+		int row = this.currentIndex.get(col);
 		int newRow = row + 1;
-		this.colsFilled.set(col, newRow);
+		this.currentIndex.set(col, newRow); //set the next index
 		return row;
 	}
 	
