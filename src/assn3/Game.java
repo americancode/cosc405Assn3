@@ -127,7 +127,14 @@ public class Game {
 		boolean goodInput = false;
 		int column = 0;
 		while (!goodInput) {
-			String input = JOptionPane.showInputDialog("Enter your move 0 to 6");
+			
+			JOptionPane optionPane = new JOptionPane("Enter your move 0 to 6", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
+			optionPane.setWantsInput(true);
+			JDialog dialog = optionPane.createDialog(null, "Your move!");
+			dialog.setLocation(100, 220);
+			dialog.setVisible(true);
+			String input = (String) optionPane.getInputValue();			
+
 			boolean p1 = false;
 			boolean p2 = false;
 			if(input.matches("[0-6]{1}")) {
