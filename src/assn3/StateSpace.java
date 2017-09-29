@@ -68,8 +68,8 @@ public class StateSpace {
 			return playerWin;
 		}
 		
-//		playerWin += diagonal2WinState( currentState );
-//		
+		playerWin += diagonal2WinState( currentState );
+		
 		return playerWin;
 	}
 
@@ -85,11 +85,11 @@ public class StateSpace {
 			int player1Count = 0;
 			int player2Count = 0;
 			int a = 0;	// col
-			
+			int slope = 1;
 			// checks along the y axis
 			for(int b = gameState.length-1; b > 0; b--) {
 					
-					int x = diagonalCheck(gameState, b, a, player1Count, player2Count);
+					int x = diagonalCheck(gameState, b, a, player1Count, player2Count, slope);
 					
 					if (x != 0){
 						return x;
@@ -101,7 +101,7 @@ public class StateSpace {
 			int b = 0; // row
 			while (a < gameState[0].length){
 				
-				int x = diagonalCheck(gameState, b, a, player1Count, player2Count);
+				int x = diagonalCheck(gameState, b, a, player1Count, player2Count, slope);
 				
 				if (x != 0){
 					return x;
@@ -117,6 +117,38 @@ public class StateSpace {
 	
 	private int diagonal2WinState(Node currentState) {
 		
+
+		int[][] gameState = currentState.getGameState();
+		
+		
+			int player1Count = 0;
+			int player2Count = 0;
+			int a = 6;	// col
+			int slope = -1;
+			// checks along the y axis
+			for(int b = gameState.length-1; b > 0; b--) {
+					
+					int x = diagonalCheck(gameState, b, a, player1Count, player2Count, slope);
+					
+					if (x != 0){
+						return x;
+					}
+				
+			}
+			
+			// checks along the x axis
+			int b = 0; // row
+			while (a > 0){
+				
+				int x = diagonalCheck(gameState, b, a, player1Count, player2Count, slope);
+				
+				if (x != 0){
+					return x;
+				}
+				
+				a--;
+			}
+
 		return 0;
 
 	}
@@ -155,7 +187,7 @@ public class StateSpace {
 		return 0;
 
 	}
-	
+
 
 	/** Check for horizontal win **/
 	
@@ -221,7 +253,7 @@ public class StateSpace {
 	}
 	
 	
-	private int diagonalCheck(int [][] gameState, int row, int col, int player1Count, int player2Count){
+	private int diagonalCheck(int [][] gameState, int row, int col, int player1Count, int player2Count, int slope){
 		 
 		while (row < gameState.length){
 			
@@ -237,8 +269,7 @@ public class StateSpace {
 			}
 			
 			catch (ArrayIndexOutOfBoundsException e){
-				
-				
+				// catch off board nodes
 			}
 	
 			
@@ -250,8 +281,8 @@ public class StateSpace {
 				return 2;
 			}
 			
-			col++;
-			row++;
+			col += slope;
+			row += slope;
 		
 		}
 		
