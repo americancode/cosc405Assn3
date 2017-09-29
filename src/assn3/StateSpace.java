@@ -64,26 +64,78 @@ public class StateSpace {
 //		
 //		if (playerWin != 0){
 //			return playerWin;
-//			
 //		}
 //		playerWin += diagonal2WinState( currentState );
 //		
-		return 0;
+		return playerWin;
 	}
 
 	
-	/** Check for diagonal win **/
-	
-	private int diagonal2WinState(Node currentState) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/** Check for diagonal win **/
+	/** Check for diagonal win (left to right, positive slope) **/
 	
 	private int diagonal1WinState(Node currentState) {
-		// TODO Auto-generated method stub
+		
+		
+		int[][] gameState = currentState.getGameState();
+		
+		
+			int player1Count = 0;
+			int player2Count = 0;
+			int a = 0;	// col
+			
+			// checks the y axis
+			for(int b = gameState.length-1; b > 0; b--) {
+				int player = gameState[b][a];
+				
+				
+					int c = a; // col
+					int d = b; // row
+					
+					
+					while (d < gameState.length){
+					
+						
+						player = gameState[d][c];
+						
+						if (player == 1){
+							player1Count++;
+							player2Count = 0;
+						}
+						else if (player == 2){
+							player2Count++;
+							player1Count = 0;
+						}
+						else{
+							player1Count = 0;
+							player2Count = 0;
+						}
+						c++;
+						d++;
+					
+					
+					}
+					// if to check if there is a count of 4
+					if (player1Count == 4){
+						return 1;
+					}
+					
+					player1Count = 0;
+					player2Count = 0;
+					
+				
+		
+				
+		}
+
 		return 0;
+	}
+
+	/** Check for diagonal win (right to left, negative slope)**/
+	
+	private int diagonal2WinState(Node currentState) {
+		
+		return 0;
+
 	}
 
 	/** Check for vertical win **/
@@ -98,45 +150,23 @@ public class StateSpace {
 			int player2Count = 0;
 			
 			for(int b = 0; b < gameState.length; b++) {
+				
 				int player = gameState[b][a];
 				
+				int [] playerCounts = addPlayerCount(player, player1Count, player2Count);
 				
-				if (player == 2 ){
-					player2Count++;
-					player1Count = 0;
-					
-					// for empty gap bug
-					if (player1Count == 4){
-						break;
-					}
-					
+				player1Count = playerCounts[0];
+				player2Count = playerCounts[1];
+
+				if (player1Count == 4){
+					return 1;
 				}
-				
-				else if (player == 1){
-					player1Count++;
-					player2Count = 0;
-					
-					// for empty gap bug
-					if (player2Count == 4){
-						break;
-					}
-					
-				}
-				else{
-					player1Count = 0;
-					player2Count = 0;
-					
+				else if (player2Count == 4){
+					return 2;
 				}
 		
 			}
-			
-			if (player1Count == 4){
-				return 1;
-			}
-			else if (player2Count == 4){
-				return 2;
-			}
-			
+
 		
 		}
 		return 0;
@@ -159,23 +189,20 @@ public class StateSpace {
 				int player = gameState[a][b];
 				
 				
-				if (player == 2 ){
-					player2Count++;
-					player1Count = 0;
-				}
+				int [] playerCounts = addPlayerCount(player, player1Count, player2Count);
 				
-				else if (player == 1){
-					player1Count++;
-					player2Count = 0;
+				player1Count = playerCounts[0];
+				player2Count = playerCounts[1];
+
+				if (player1Count == 4){
+					return 1;
+				}
+				else if (player2Count == 4){
+					return 2;
 				}
 			}
 			
-			if (player1Count == 4){
-				return 1;
-			}
-			else if (player2Count == 4){
-				return 2;
-			}
+
 		
 		}
 		return 0;
@@ -183,7 +210,31 @@ public class StateSpace {
 	}
 	
 	
-	
+	private int[] addPlayerCount(int player, int player1Count, int player2Count){
+		int [] playerCounts = new int [2];
+		
+		if (player == 2 ){
+			player2Count++;
+			playerCounts[0] = 0;
+			playerCounts[1] = player2Count;
+			
+		}
+		
+		else if (player == 1){
+			player1Count++;
+			playerCounts[0] = player1Count;
+			playerCounts[1] = 0;
+			
+		}
+		else{
+			playerCounts[0] = 0;
+			playerCounts[1] = 0;
+			
+		}
+		
+		return playerCounts;
+		
+	}
 	
 	
 }
