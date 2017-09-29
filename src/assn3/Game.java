@@ -1,5 +1,7 @@
 package assn3;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 
 import javax.swing.JDialog;
@@ -39,9 +41,15 @@ public class Game {
 	 */
 	public void startGame() {
 		for(;;) {
+			// Create JOption Pane
 			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
 			optionPane.setWantsInput(true);
 			JDialog dialog = optionPane.createDialog(null, "Wecome!");
+			dialog.addWindowListener(new WindowAdapter() {
+			    public void windowClosing(WindowEvent e) {
+			    	System.exit(0);
+			    }
+			});
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
 			String usrInput = (String) optionPane.getInputValue();			
@@ -128,9 +136,15 @@ public class Game {
 		int column = 0;
 		while (!goodInput) {
 			
+			// Create JOptionPane
 			JOptionPane optionPane = new JOptionPane("Enter your move 0 to 6", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
 			optionPane.setWantsInput(true);
 			JDialog dialog = optionPane.createDialog(null, "Your move!");
+			dialog.addWindowListener(new WindowAdapter() {
+			    public void windowClosing(WindowEvent e) {
+			    	System.exit(0);
+			    }
+			});
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
 			String input = (String) optionPane.getInputValue();			
