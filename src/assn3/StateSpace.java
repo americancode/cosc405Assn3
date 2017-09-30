@@ -29,11 +29,16 @@ public class StateSpace {
 		if (node == null) {
 			return 0;
 		}
+		
+		System.out.println("________________________________________________________________________________________________________________");
+		System.out.println("_____________________________________________STATE CHOSEN BY AI_________________________________________________");
+		System.out.println("________________________________________________________________________________________________________________");
+		printState(node);
 		return node.getPlayToNode();
 	}
 
 	private Node bestFirstSearch() {
-		ArrayList<Node> openList = new ArrayList<Node>();
+		LinkedList<Node> openList = new LinkedList<Node>();
 		ArrayList<Node> closedList = new ArrayList<Node>();
 		openList.add(this.root);
 
@@ -46,11 +51,12 @@ public class StateSpace {
 				X.getAndSetChildren(X, currentPlayer);
 				printChildren(X);
 				LinkedList<Node> tempList = X.getChildrenList();
+				Node node = null;
 				for (int i = 0; i < tempList.size(); i++) {
 					if (!openList.contains(tempList.get(i)) && !closedList.contains(tempList.get(i))) {
-						Node node = tempList.get(i);
+						node = tempList.get(i);
 						node.setHeuristicValue(getHeuristicValue(node)); 
-						openList.add(node);
+						openList.add(node); // for some reason this will not add to the list
 						System.out.printf("I got added to the open list. HVal = %d\n", getHeuristicValue(node));
 					} else if (openList.contains(tempList.get(i))) {
 						System.out.println("I am on the open list");
@@ -64,7 +70,7 @@ public class StateSpace {
 					if ((openList.size() != 0)) {
 						openList.remove(0);
 					}
-					Collections.sort(openList);
+					Collections.sort(openList); // when i try to print the list its always 1 as shown in the console prints
 					printList(openList);
 
 				}
@@ -95,6 +101,7 @@ public class StateSpace {
 			
 		}else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
 			heuristicVal =  (int)(Math.random() * 10);
+			System.out.println("RANDOM WAS CALLED");
 		}
 	
 		
@@ -126,11 +133,22 @@ public class StateSpace {
 	}
 	
 	
-	private void printList(ArrayList<Node> list) {
+	private void printList(LinkedList<Node> list) {
 		for (int i = 0; i < list.size(); i ++) {
 			System.out.printf("%d || ", list.get(i).getHeuristicValue());
 		}
 		System.out.println("");
+	}
+	
+	public void printState(Node node) {
+		int[][] game = node.getGameState();
+		for (int i = game.length -1; i >=0 ; i--) {
+			for (int j = 0; j < game[i].length; j++) {
+				System.out.printf("%d  ", game[i][j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("\n\n");
 	}
 
 	/** determine if there is a winning state **/

@@ -53,6 +53,34 @@ public class Node implements Comparable{
 			this.currentIndex.add(0);
 		}
 	}
+	public Node() {
+		
+	}
+	
+	
+	public Node copyNode() {
+		Node node = new Node();
+		node.isRootNode = true;
+		node.childrenList = new LinkedList<Node>();
+		node.currentIndex = new LinkedList<Integer>();
+		node.parent = null;
+		node.isRootNode = false;
+		node.currentIndex = new LinkedList<Integer>();
+		node.childrenList = new LinkedList<Node>();
+		node.pathToNode = new ArrayList<Integer>();
+		node.currentIndex.addAll(this.currentIndex); // setting the parent list of indexes to the child list of indexes
+		node.pathToNode.addAll(this.pathToNode);
+		
+		
+		node.gameState = new int[this.gameState.length][];
+		for(int i = 0; i < this.gameState.length; i++) {
+		    node.gameState[i] = this.gameState[i].clone();
+		}
+		
+		
+		return node;
+		
+	}
 	
 
 	/**
@@ -64,13 +92,14 @@ public class Node implements Comparable{
 		LinkedList<Node> childList = new LinkedList<Node>();
 		for(int i = 0; i < 7; i++) {
 			Node tempNode = new Node(parent);
-			tempNode.gameState = getState(i, currentPlayer);
 			if (validateMove(i)) { // if the proposed move [1-6] creates a possible game state add it to the list
+				tempNode.gameState = createState(i, currentPlayer);
 				int row = tempNode.currentIndex.get(i);
 				int newRow = row + 1;
 				tempNode.currentIndex.set(i, newRow);
 				tempNode.pathToNode.add(childList.size());
 				tempNode.playToNode = i;
+				tempNode.parent = parent;
 				childList.add(tempNode);
 			}
 			
@@ -98,15 +127,12 @@ public class Node implements Comparable{
 
 	
 	
-	private int[][] getState(int col, int player) {
-		int[][]	state = new int[this.gameState.length][];;
-		
+	private int[][] createState(int col, int player) {
+		int[][]	state = new int[this.gameState.length][];
 		for(int i = 0; i < this.gameState.length; i++) {
 		    state[i] = this.gameState[i].clone();
 		}
 		int row = this.currentIndex.get(col);
-		int newRow = row + 1;
-		this.currentIndex.set(col, newRow);
 		state[row][col] = player;
 		return state;
 	}
