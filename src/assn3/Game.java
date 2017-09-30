@@ -42,7 +42,7 @@ public class Game {
 	public void startGame() {
 		for(;;) {
 			// Create JOption Pane
-			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
+			JOptionPane optionPane = new JOptionPane("Do you want to move first? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
 			optionPane.setWantsInput(true);
 			JDialog dialog = optionPane.createDialog(null, "Wecome!");
 			dialog.addWindowListener(new WindowAdapter() {
@@ -136,7 +136,7 @@ public class Game {
 		while (!goodInput) {
 			
 			// Create JOptionPane
-			JOptionPane optionPane = new JOptionPane("Enter your move 0 to 6", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, null, null);
+			JOptionPane optionPane = new JOptionPane("Enter your move 0 to 6", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
 			optionPane.setWantsInput(true);
 			JDialog dialog = optionPane.createDialog(null, "Your move!");
 			dialog.addWindowListener(new WindowAdapter() {
