@@ -46,13 +46,12 @@ public class Node implements Comparable{
 	public Node(Node parent) {
 		this.currentIndex = new LinkedList<Integer>();
 		this.childrenList = new LinkedList<Node>();
-
+		this.pathToNode = new ArrayList<Integer>();
+		this.currentIndex.addAll(parent.getCurrentIndex()); // setting the parent list of indexes to the child list of indexes
+		this.pathToNode.addAll(parent.getPathToNode());
 		for(int i = 0; i < 7; i ++) {
 			this.currentIndex.add(0);
 		}
-		this.parent = parent;
-		this.currentIndex = parent.getCurrentIndex(); // setting the parent list of indexes to the child list of indexes
-		this.pathToNode = parent.getPathToNode();
 	}
 	
 
@@ -198,9 +197,9 @@ public class Node implements Comparable{
 		//this < obj => -1
 		
 		if (this.heuristicValue < node.getHeuristicValue()) {
-			return -1;
-		}else if (this.heuristicValue < node.getHeuristicValue()) {
 			return 1;
+		}else if (this.heuristicValue < node.getHeuristicValue()) {
+			return -1;
 		}else {
 			return 0;
 		}
