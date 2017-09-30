@@ -1,11 +1,5 @@
 package assn3;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,7 +7,6 @@ import java.util.LinkedList;
 public class StateSpace {
 	private Node root;
 	private int currentPlayer;
-	private final int DEPTH = 5;
 
 	/**
 	 * constructor for the FIRST PLAY
@@ -27,7 +20,7 @@ public class StateSpace {
 	}
 
 	public StateSpace() {
-		//Sole use is to access some of the public methods
+		//Sole use is to access some of the public methods for detecting a win
 	}
 	
 	public int getBotMove() {
@@ -36,11 +29,13 @@ public class StateSpace {
 			System.out.println("Node was null");
 			return 0;
 		}
+		if (Game.TESTING) {
+			System.out.println("________________________________________________________________________________________________________________");
+			System.out.println("_____________________________________________STATE CHOSEN BY AI_________________________________________________");
+			System.out.println("________________________________________________________________________________________________________________");
+			printState(node);
+		}
 		
-		System.out.println("________________________________________________________________________________________________________________");
-		System.out.println("_____________________________________________STATE CHOSEN BY AI_________________________________________________");
-		System.out.println("________________________________________________________________________________________________________________");
-		printState(node);
 		return node.getPlayToNode();
 	}
 
@@ -55,30 +50,66 @@ public class StateSpace {
 			if (isGoal(X)) {
 				return X;
 			} else {
-				X.getAndSetChildren(X, currentPlayer);
-				printChildren(X);
-				LinkedList<Node> tempList = X.getChildrenList();
+				X.getAndSetChildren();
+				if (Game.TESTING) {
+					printChildren(X);
+				}
+				LinkedList<Node> childList= X.getChildrenList();
 				Node node = null;
-				for (int i = 0; i < tempList.size(); i++) {
-					if (!openList.contains(tempList.get(i)) && !closedList.contains(tempList.get(i))) {
-						node = tempList.get(i);
+				for (int i = 0; i < childList.size(); i++) {
+					if (!openList.contains(childList.get(i)) && !closedList.contains(childList.get(i))) {
+						node = childList.get(i);
 						node.setHeuristicValue(getHeuristicValue(node));
-						openList.add(node); // for some reason this will not add to the list
-						System.out.printf("I got added to the open list. HVal = %d\n", getHeuristicValue(node));
-					} else if (openList.contains(tempList.get(i))) {
-						System.out.println("I am on the open list");
-												
-						
+						openList.add(node);
+						if (Game.TESTING) {
+							System.out.printf("I got added to the open list. HVal = %d\n", getHeuristicValue(node));
+						}
+					} else if (openList.contains(childList.get(i))) {
+						Node nodeInOpen = openList.get(openList.indexOf(childList.get(i)));
+						node = childList.get(i);
+						//distances
+						int openNode = nodeInOpen.getPathToNode().size();
+						int nodeDistance = node.getPathToNode().size();
+						if (nodeDistance < openNode) {
+							nodeInOpen.setPathToNode(node.getPathToNode());
+							if (!Game.TESTING) {
+								System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+								System.out.printf("++++++++++++++++++++++++++++++++++++Set Node in open list to a shorter path+++++++++++++++open node%d   ++++++++++++++++++++\n", openNode);
+								System.out.printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++child node%d   +++++++++++++++++++++\n", nodeDistance);
+							}
+						}
+					} else if (closedList.contains(childList.get(i))){
+						Node nodeInClosed = closedList.get(closedList.indexOf(childList.get(i)));
+						node = childList.get(i);
+						//distances
+						int closedNodeDistance = nodeInClosed.getPathToNode().size();
+						int nodeDistance = node.getPathToNode().size();
+						if (nodeDistance < closedNodeDistance) {
+							openList.add(node);
+							closedList.remove(node);
+							if (!Game.TESTING) {
+								System.out.println("================================================================================================================================");
+								System.out.println("===================================Shorter Path: Node removed from closed and moved to open=====================================");
+								System.out.println("================================================================================================================================");
+							}
+						}
 					} else {
+						if (!Game.TESTING) {
+							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&I HIT THE ELSE BLOCK&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
+						}
 					}
 				}
 				closedList.add(X);
 				if ((openList.size() != 0)) {
 					openList.remove(0);
 				}
-				Collections.sort(openList); // when i try to print the list its always 1 as shown in the console prints
-				printList(openList);
+				Collections.sort(openList); 
+				if (!Game.TESTING) {
+					printList(openList);
+				}
 
 			}
 
@@ -101,29 +132,33 @@ public class StateSpace {
 		// any input on this Would be great! a higher integer value corresponds to a higher value.
 		int heuristicVal = 0;
 		if (winningState(node) == 2) { // involved with a bot winning
-			heuristicVal = 10;
+			heuristicVal = 20;
+			if (!Game.TESTING) {
+				System.out.println("**********************************FOUND WINNING STATE FOR BOT**************************************");
+			}
+
 		}else if (winningState(node) == 1) { //block this move
-			heuristicVal =20; 
+			heuristicVal =5; 
+			if (!Game.TESTING) {
+				System.out.println("**********************************FOUND WINNING STATE FOR USER**************************************");
+			}
 			
 		}else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
 			heuristicVal =  (int)(Math.random() * 10);
-			System.out.println("RANDOM WAS CALLED");
+			
+			if (!Game.TESTING) {
+				System.out.println("**********************************RANDOM STATE GETTING US CLOSER TO A WIN****************************");
+			}
 		}
 	
-		
 		return heuristicVal;
 	}
-
-	private int negatePlayer(int player) {
-		if (player == 1) {
-			return 2;
-		} else {
-			return 1;
-		}
-	}
 	
 	
-	
+	/**
+	 * Prints all the children's matrixes of the passed node
+	 * @param node
+	 */
 	private void printChildren(Node node) {
 		LinkedList<Node> childList = node.getChildrenList();
 		for(int k = 0; k < node.getChildrenList().size(); k++) {
@@ -138,14 +173,21 @@ public class StateSpace {
 		}
 	}
 	
-	
+	/**
+	 * Prints the heuristic Values for the open list or any passed list
+	 */
 	private void printList(ArrayList<Node> list) {
+		System.out.println("--------------------------------------------------HEURISTIC VALUES LIST-------------------------------------------------");
 		for (int i = 0; i < list.size(); i ++) {
 			System.out.printf("%d || ", list.get(i).getHeuristicValue());
 		}
 		System.out.println("");
 	}
 	
+	/**
+	 * Prints the matrix of the passed node
+	 * @param node
+	 */
 	public void printState(Node node) {
 		int[][] game = node.getGameState();
 		for (int i = game.length -1; i >=0 ; i--) {

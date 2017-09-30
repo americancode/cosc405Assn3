@@ -3,7 +3,6 @@ package assn3;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
-
 import javax.swing.JDialog;
 
 /**
@@ -21,6 +20,7 @@ public class Game {
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
 	private LinkedList<Integer> currentIndex;
+	public static final boolean TESTING = false; // global var for testing console printing
 	
 	
 	/**
@@ -108,11 +108,14 @@ public class Game {
 		updateState(row, col, getPlayerInt(this.usersTurn));
 
 		this.usersTurn = !this.usersTurn;
-		printState();
+		if (TESTING) {
+			printState();
+		}
 
 		StateSpace blankSpace = new StateSpace();
 		int win = blankSpace.winningState(this.currentGameState);
 		
+		//Check for a win
 		if (win == 0) {
 			getAndApplyMove();
 		} else {
@@ -121,8 +124,41 @@ public class Game {
 			}else {
 				JOptionPane.showMessageDialog(null, "Player 2  WON!!");
 			}
+			playAgain();
 		}
 		
+		
+		
+	}
+	
+	
+	
+	private void playAgain() {
+		for(;;) {
+			// Create JOption Pane
+			JOptionPane optionPane = new JOptionPane("Do you want to play again? y/n", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
+			optionPane.setWantsInput(true);
+			JDialog dialog = optionPane.createDialog(null, "Play Again?");
+			dialog.addWindowListener(new WindowAdapter() {
+			    public void windowClosing(WindowEvent e) {
+			    	System.exit(0);
+			    }
+			});
+			dialog.setLocation(dialog.getLocation());
+			dialog.setLocation(100, 220);
+			dialog.setVisible(true);
+			String usrInput = (String) optionPane.getInputValue();			
+			usrInput = usrInput.toLowerCase();
+			
+			if (usrInput.equals("y")) {
+				Game g = new Game();
+				g.startGame();
+				break;
+			} else if (usrInput.equals("n")){
+		    	System.exit(0);
+				break;
+			} 
+		}
 	}
 	
 	/**
@@ -166,19 +202,32 @@ public class Game {
 	}
 	
 	public int getBotMove(){
-		/*boolean goodInput = false;
-		int randomNum = 0;
-		while (!goodInput) {
-			randomNum =  (int)(Math.random() * 7);
-			if (validateMove(randomNum)) {
-				 goodInput = true;	
-			}
-		}*/
-		
+		boolean goodInput = false;
+		int play = 0;
 		StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
-		return graph.getBotMove();
+		play = graph.getBotMove();
+		
+		if (validateMove(play)) {
+			return play;
+		}else {
+			
+			while (!goodInput) {
+				play = (int) (Math.random() * 7);
+				if (validateMove(play)) {
+					goodInput = true;
+				}
+			}
+			
+			if (TESTING) {
+				System.out.println("AI gave BAD PLAY. a random on was generated");
+			}
+
+			
+		}
+
+		return play;
 	}
-	
+
 	/** a pre-validation method to validate the player BEFORE generate row is called
 	 * 
 	 * @param col
