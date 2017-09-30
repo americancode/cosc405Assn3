@@ -166,20 +166,17 @@ public class Game {
 	}
 	
 	public int getBotMove(){
-		boolean goodInput = false;
+		/*boolean goodInput = false;
 		int randomNum = 0;
 		while (!goodInput) {
 			randomNum =  (int)(Math.random() * 7);
 			if (validateMove(randomNum)) {
 				 goodInput = true;	
 			}
-		}
+		}*/
 		
-		//StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
-		
-		
-		
-		return randomNum;
+		StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
+		return graph.getBotMove();
 	}
 	
 	/** a pre-validation method to validate the player BEFORE generate row is called
@@ -221,6 +218,10 @@ public class Game {
 	
 	public void printState() {
 		int[][] game = this.currentGameState.getGameState();
+		System.out.println("________________________________________________________________________________________________________________");
+		System.out.println("_____________________________________________ACTUAL GAME STATE AFTER PLAY_______________________________________");
+		System.out.println("________________________________________________________________________________________________________________");
+
 		for (int i = game.length -1; i >=0 ; i--) {
 			for (int j = 0; j < game[i].length; j++) {
 				System.out.printf("%d  ", game[i][j]);
