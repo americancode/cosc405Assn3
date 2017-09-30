@@ -1,5 +1,11 @@
 package assn3;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -27,6 +33,7 @@ public class StateSpace {
 	public int getBotMove() {
 		Node node = bestFirstSearch();
 		if (node == null) {
+			System.out.println("Node was null");
 			return 0;
 		}
 		
@@ -38,8 +45,8 @@ public class StateSpace {
 	}
 
 	private Node bestFirstSearch() {
-		LinkedList<Node> openList = new LinkedList<Node>();
-		ArrayList<Node> closedList = new ArrayList<Node>();
+		ArrayList<Node> openList = new ArrayList<Node>();
+		LinkedList<Node> closedList = new LinkedList<Node>();
 		openList.add(this.root);
 
 		while (openList.size() > 0) {
@@ -55,7 +62,7 @@ public class StateSpace {
 				for (int i = 0; i < tempList.size(); i++) {
 					if (!openList.contains(tempList.get(i)) && !closedList.contains(tempList.get(i))) {
 						node = tempList.get(i);
-						node.setHeuristicValue(getHeuristicValue(node)); 
+						node.setHeuristicValue(getHeuristicValue(node));
 						openList.add(node); // for some reason this will not add to the list
 						System.out.printf("I got added to the open list. HVal = %d\n", getHeuristicValue(node));
 					} else if (openList.contains(tempList.get(i))) {
@@ -65,15 +72,13 @@ public class StateSpace {
 					} else {
 
 					}
-
-					closedList.add(X);
-					if ((openList.size() != 0)) {
-						openList.remove(0);
-					}
-					Collections.sort(openList); // when i try to print the list its always 1 as shown in the console prints
-					printList(openList);
-
 				}
+				closedList.add(X);
+				if ((openList.size() != 0)) {
+					openList.remove(0);
+				}
+				Collections.sort(openList); // when i try to print the list its always 1 as shown in the console prints
+				printList(openList);
 
 			}
 
@@ -81,6 +86,7 @@ public class StateSpace {
 
 		return null;
 	}
+
 
 
 	private boolean isGoal(Node node) {
@@ -133,7 +139,7 @@ public class StateSpace {
 	}
 	
 	
-	private void printList(LinkedList<Node> list) {
+	private void printList(ArrayList<Node> list) {
 		for (int i = 0; i < list.size(); i ++) {
 			System.out.printf("%d || ", list.get(i).getHeuristicValue());
 		}
@@ -150,6 +156,9 @@ public class StateSpace {
 		}
 		System.out.println("\n\n");
 	}
+	
+		
+	
 
 	/** determine if there is a winning state **/
 

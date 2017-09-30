@@ -1,5 +1,6 @@
 package assn3;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -224,14 +225,16 @@ public class Node implements Comparable{
 		
 		if (this.heuristicValue < node.getHeuristicValue()) {
 			return 1;
-		}else if (this.heuristicValue < node.getHeuristicValue()) {
+		}else if (this.heuristicValue > node.getHeuristicValue()) {
 			return -1;
 		}else {
 			return 0;
 		}
 		
 	}
+	
 
+	
 	
 	
 	
