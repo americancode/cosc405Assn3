@@ -140,7 +140,12 @@ public class StateSpace {
 				System.out.println("**********************************FOUND WINNING STATE FOR BOT**************************************");
 			}
 
-		} else if (winningState(node) == 1) { //block this move
+		} else if (winningState(node) == 1) { // Block this move!
+			// Get the position that will allow Player 1 to win then fill that position.
+			
+			
+			
+			
 			heuristicVal = 5; 
 			if (!Game.TESTING) {
 				System.out.println("**********************************FOUND WINNING STATE FOR USER**************************************");
@@ -209,13 +214,21 @@ public class StateSpace {
 	 */
 	public int winningState(Node currentState) {
 		int playerWin = 0;
+		
+		if(currentState.getPNTBF() == true) {
+			
+			for(;;) {
+				System.out.println("Fill position " + currentState.getPositionNeededToBeFilled());
+			}
+		}
+		
 
 		playerWin += horizontalWinState(currentState);
 
-		if (playerWin > 0) {
+		if (playerWin == 1 || playerWin == 2) {
 			return playerWin;
-		}
-
+		} 
+		
 		playerWin += verticalWinState(currentState);
 
 		if (playerWin != 0) {
@@ -318,6 +331,10 @@ public class StateSpace {
 	 * Check for vertical win
 	 * @param currentState
 	 * @return 1 if Player 1 won, 2 if Player 2 won, or 0 if there are no vertical wins.
+	 * 
+	 * 
+	 * @return 3 if Player 1 has 3 in a row
+	 * @return 4 if Player 2 has 4 in a row
 	 */
 	private int verticalWinState(Node currentState) {
 
@@ -342,6 +359,13 @@ public class StateSpace {
 				} else if (player2Count == 4) {
 					return 2;
 				}
+				
+//				if(player1Count == 3) {
+//					return 3;
+//				}
+//				if(player2Count == 3) {
+//					return 4;
+//				}
 
 			}
 
@@ -364,7 +388,7 @@ public class StateSpace {
 			int player1Count = 0;
 			int player2Count = 0;
 
-			for (int b = 0; b < gameState[a].length; b++) {
+			for (int b = 0; b < gameState.length; b++) {
 				int player = gameState[a][b];
 
 				int[] playerCounts = addPlayerCount(player, player1Count, player2Count);
@@ -372,11 +396,48 @@ public class StateSpace {
 				player1Count = playerCounts[0];
 				player2Count = playerCounts[1];
 
-				if (player1Count == 4) {
-					return 1;
-				} else if (player2Count == 4) {
-					return 2;
+				if (player1Count == 3) {
+					player = gameState[a][b+1];
+
+					playerCounts = addPlayerCount(player, player1Count, player2Count);
+
+					player1Count = playerCounts[0];
+					player2Count = playerCounts[1];
+					
+					if (player1Count == 4) {
+						return 1;
+					} else {
+						// Do something here
+						if(currentState.isRootNode()) {
+							int fillThis;
+							fillThis = b+1;
+							currentState.setPositionNeededToBeFilled(fillThis);
+						}
+						return 3;	
+					}
+				} 
+				if (player2Count == 3) {
+					player = gameState[a][b+1];
+
+					playerCounts = addPlayerCount(player, player1Count, player2Count);
+
+					player1Count = playerCounts[0];
+					player2Count = playerCounts[1];
+					
+					if (player2Count == 4) {
+						return 2;
+					} else {
+						// Do something here
+						// Find position needed to be filled
+						if(currentState.isRootNode()) {
+							int fillThis;
+							fillThis = b+1;
+							currentState.setPositionNeededToBeFilled(fillThis);
+						}
+						return 4;
+					}
 				}
+				
 			}
 
 		}

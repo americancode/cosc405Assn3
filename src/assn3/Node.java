@@ -14,7 +14,8 @@ public class Node implements Comparable{
 	private LinkedList<Node> childrenList; //a list of all the children of this node
 	private LinkedList<Integer> currentIndex; //a list of current indices for the the rows
 	private LinkedList<Integer> pathToNode; //a list of indices that correspond to a path of children 
-	
+	private int positionNeededToBeFilled;
+	private Boolean pNTBF = false; 
 	
 	/**
 	 * The constructor for the state space START ONLY
@@ -126,6 +127,10 @@ public class Node implements Comparable{
 	public int[][] getGameState() {
 		return gameState;
 	}
+	
+	public Boolean getPNTBF() {
+		return pNTBF;
+	}
 
 	public void setGameState(int[][] gameState) {
 		this.gameState = gameState;
@@ -141,6 +146,11 @@ public class Node implements Comparable{
 
 	public boolean isRootNode() {
 		return isRootNode;
+	}
+	
+	public void setPositionNeededToBeFilled(int pos) {
+		this.positionNeededToBeFilled = pos;
+		pNTBF = true;
 	}
 
 	public void setRootNode(boolean isRootNode) {
@@ -190,6 +200,10 @@ public class Node implements Comparable{
 	
 	public int getPlayerNumber() {
 		return playerNumber;
+	}
+	
+	public int getPositionNeededToBeFilled() {
+		return positionNeededToBeFilled;
 	}
 
 	public void setPlayerNumber(int playerNumber) {

@@ -113,14 +113,25 @@ public class Game {
 		StateSpace blankSpace = new StateSpace();
 		int win = blankSpace.winningState(this.currentGameState);
 
-		//Check for a win
+		// Check for a win
 		if (win == 0) {
 			getAndApplyMove();
-		} else if (win == 1) {
+		} else if(win == 1) {
 			JOptionPane.showMessageDialog(null, "Player 1  WON!!");
-		} else {
-			JOptionPane.showMessageDialog(null, "Player 2  WON!!");
-		}
+		} else if(win == 2){
+			JOptionPane.showMessageDialog(null, "AI WON!!");
+		} //else if(win == 3) { // This means Player 1 has 3 in a row
+//			// Try to fill position if it is valid
+//			// If it is not valid, then maybe just call playAgain();
+//		  // col = currentGameState.getPositionNeededToBeFilled();
+//			col = getUserMove();
+//		} else if(win == 4) { // This means Player 2 has 3 in a row
+//			
+//			col = currentGameState.getPositionNeededToBeFilled();
+//			this.ui.applyMove(row, col, playerNum);
+//			updateState(row, col, getPlayerInt(this.usersTurn));
+//			
+//		}
 		playAgain();
 	}
 
@@ -191,8 +202,6 @@ public class Game {
 			
 			goodInput = (p1 && p2);
 		}
-		
-		
 		return column;
 	}
 	
@@ -201,6 +210,12 @@ public class Game {
 		int play = 0;
 		StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
 		play = graph.getBotMove();
+		
+		if(currentGameState.getPNTBF() == true) {
+			if(validateMove(currentGameState.getPositionNeededToBeFilled())) {
+				play = currentGameState.getPositionNeededToBeFilled();
+			}
+		}
 		
 		if (validateMove(play)) {
 			return play;
