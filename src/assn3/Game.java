@@ -114,25 +114,20 @@ public class Game {
 
 		StateSpace blankSpace = new StateSpace();
 		int win = blankSpace.winningState(this.currentGameState);
-		
+
 		//Check for a win
 		if (win == 0) {
 			getAndApplyMove();
+		} else if (win == 1) {
+			JOptionPane.showMessageDialog(null, "Player 1  WON!!");
 		} else {
-			if (win == 1) {
-				JOptionPane.showMessageDialog(null, "Player 1  WON!!");
-			}else {
-				JOptionPane.showMessageDialog(null, "Player 2  WON!!");
-			}
-			playAgain();
+			JOptionPane.showMessageDialog(null, "Player 2  WON!!");
 		}
-		
-		
-		
+		playAgain();
 	}
-	
-	
-	
+
+
+
 	private void playAgain() {
 		for(;;) {
 			// Create JOption Pane
@@ -140,7 +135,7 @@ public class Game {
 			optionPane.setWantsInput(true);
 			JDialog dialog = optionPane.createDialog(null, "Play Again?");
 			dialog.addWindowListener(new WindowAdapter() {
-			    public void windowClosing(WindowEvent e) {
+				public void windowClosing(WindowEvent e) {
 			    	System.exit(0);
 			    }
 			});
@@ -154,7 +149,7 @@ public class Game {
 				Game g = new Game();
 				g.startGame();
 				break;
-			} else if (usrInput.equals("n")){
+			} else if (usrInput.equals("n")) {
 		    	System.exit(0);
 				break;
 			} 

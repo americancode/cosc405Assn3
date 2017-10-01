@@ -230,8 +230,11 @@ public class StateSpace {
 		return playerWin;
 	}
 
-	/** Check for diagonal win (left to right, positive slope) **/
-
+	/**
+	 * Check for diagonal win (left to right, positive slope)
+	 * @param currentState - the current game state
+	 * @return Returns a 
+	 */
 	private int diagonal1WinState(Node currentState) {
 
 		int[][] gameState = currentState.getGameState();
@@ -369,8 +372,13 @@ public class StateSpace {
 
 	}
 
-	/** add number of counts to appropriate player **/
-
+	/**
+	 * add number of counts to appropriate player
+	 * @param player
+	 * @param player1Count
+	 * @param player2Count
+	 * @return
+	 */
 	private int[] addPlayerCount(int player, int player1Count, int player2Count) {
 		int[] playerCounts = new int[2];
 
@@ -396,8 +404,17 @@ public class StateSpace {
 
 	}
 
-	/** Check for diagonal win **/
-
+	/**
+	 * Check for diagonal win
+	 * 
+	 * @param gameState - The current game state.
+	 * @param row - 
+	 * @param col - 
+	 * @param player1Count - 
+	 * @param player2Count - 
+	 * @param slope - 
+	 * @return - 
+	 */
 	private int diagonalCheck(int[][] gameState, int row, int col, int player1Count, int player2Count, int slope) {
 
 		while (row < gameState.length && col < gameState[0].length) {

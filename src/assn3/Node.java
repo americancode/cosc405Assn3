@@ -209,6 +209,14 @@ public class Node implements Comparable{
 		return testVal;
 	}
 
+	/**
+	 * Compares a node passed in as a parameter with the current node.
+	 * 
+	 * @param Object - the node to compare to the current node
+	 * @return 1 if the current node's heuristic is less than the node's that is passed into this method. 
+	 * -1 if the current node's heuristic is greater than the node's that is passed into this method.
+	 * 0 if the heuristics of the two nodes are equal.
+	 */
 	@Override
 	public int compareTo(Object obj) {
 		Node node = ((Node)obj);
