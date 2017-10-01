@@ -97,7 +97,7 @@ public class Node implements Comparable{
 	 * @param col
 	 * @return
 	 */
-	private boolean validateMove(int col) {
+	public boolean validateMove(int col) {
 		int filled = this.currentIndex.get(col);
 		if (filled < 6) {
 			return true;

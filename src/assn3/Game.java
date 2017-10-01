@@ -205,7 +205,7 @@ public class Game {
 			currentGameState.setPNTBF(false);
 		}
 		
-		if (validateMove(play)) {
+		if (this.currentGameState.validateMove(play)) {
 			return play;
 		}else {
 			
