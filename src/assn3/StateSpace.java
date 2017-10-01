@@ -212,7 +212,7 @@ public class StateSpace {
 
 		playerWin += horizontalWinState(currentState);
 
-		if (playerWin > 0) {
+		if (playerWin != 0) {
 			return playerWin;
 		}
 
@@ -440,21 +440,15 @@ public class StateSpace {
 			player2Count++; 
 			playerCounts[0] = 0; 			// Set player 1s count to 0 since the tile alternated
 			playerCounts[1] = player2Count; // Start or continue the count for player 2
-		}
-
-		else if (player == 1) {
+		} else if (player == 1) {
 			player1Count++;
 			playerCounts[0] = player1Count; // Start or continue the count for player 1
 			playerCounts[1] = 0; 			// Set player 2s count to 0 since the tile alternated
-
 		} else {
 			playerCounts[0] = 0;			// If the current tile is not occupied, reset both player's counts.
 			playerCounts[1] = 0;
-
 		}
-
 		return playerCounts;
-
 	}
 
 	/**

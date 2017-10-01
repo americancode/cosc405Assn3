@@ -192,6 +192,10 @@ public class Node implements Comparable{
 	public void setPathToNode(LinkedList<Integer> pathToNode) {
 		this.pathToNode = pathToNode;
 	}
+	
+	public void setPNTBF(Boolean pNTBF) {
+		this.pNTBF = pNTBF;
+	}
 
 	public void setCurrentIndex(LinkedList<Integer> currentIndex) {
 		this.currentIndex = currentIndex;
