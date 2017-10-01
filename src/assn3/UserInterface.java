@@ -37,7 +37,6 @@ public class UserInterface extends JFrame {
 
 		public Circle() {
 			setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			
 		}
 
 		public boolean isDraw() {
@@ -67,9 +66,8 @@ public class UserInterface extends JFrame {
 				g.fillOval(0, 0, getWidth(), getHeight());
 			}
 		}
-
+		
 	}
-	
 	
 	public void applyMove(int row, int column, int player) {
 		if (player == 1) {
@@ -79,7 +77,5 @@ public class UserInterface extends JFrame {
 		}
 		this.circlePanels[row][column].setDraw(true);
 	}
-	
-	
 	
 }

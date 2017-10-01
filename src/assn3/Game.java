@@ -127,7 +127,9 @@ public class Game {
 	}
 
 
-
+	/**
+	 * Asks user if they want to play again. If so, it creates a new game.
+	 */
 	private void playAgain() {
 		for(;;) {
 			// Create JOption Pane

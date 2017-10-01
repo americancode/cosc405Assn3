@@ -128,6 +128,11 @@ public class StateSpace {
 		}
 	}
 
+	/**
+	 * Get the heuristic value of a node.
+	 * @param node
+	 * @return the heuristic value
+	 */
 	private int getHeuristicValue(Node node) {
 		// any input on this Would be great! a higher integer value corresponds to a higher value.
 		int heuristicVal = 0;
@@ -137,13 +142,13 @@ public class StateSpace {
 				System.out.println("**********************************FOUND WINNING STATE FOR BOT**************************************");
 			}
 
-		}else if (winningState(node) == 1) { //block this move
-			heuristicVal =5; 
+		} else if (winningState(node) == 1) { //block this move
+			heuristicVal = 5; 
 			if (!Game.TESTING) {
 				System.out.println("**********************************FOUND WINNING STATE FOR USER**************************************");
 			}
 			
-		}else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
+		} else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
 			heuristicVal =  (int)(Math.random() * 10);
 			
 			if (!Game.TESTING) {
@@ -199,11 +204,11 @@ public class StateSpace {
 		System.out.println("\n\n");
 	}
 	
-		
-	
-
-	/** determine if there is a winning state **/
-
+	/**
+	 * Determine if there is a winning state
+	 * @param currentState
+	 * @return 1 if it is a winning state for Player 1, 2 if it is a winning state for Player 2, or 0 if it is not a winning state.
+	 */
 	public int winningState(Node currentState) {
 		int playerWin = 0;
 
@@ -233,7 +238,7 @@ public class StateSpace {
 	/**
 	 * Check for diagonal win (left to right, positive slope)
 	 * @param currentState - the current game state
-	 * @return Returns a 
+	 * @return 
 	 */
 	private int diagonal1WinState(Node currentState) {
 
@@ -270,8 +275,11 @@ public class StateSpace {
 		return 0;
 	}
 
-	/** Check for diagonal win (right to left, negative slope) **/
-
+	/**
+	 * Check for diagonal win (right to left, negative slope)
+	 * @param currentState
+	 * @return 
+	 */
 	private int diagonal2WinState(Node currentState) {
 
 		int[][] gameState = currentState.getGameState();
@@ -308,12 +316,15 @@ public class StateSpace {
 
 	}
 
-	/** Check for vertical win **/
-
+	/**
+	 * Check for vertical win
+	 * @param currentState
+	 * @return 1 if Player 1 won, 2 if Player 2 won, or 0 if there are no vertical wins.
+	 */
 	private int verticalWinState(Node currentState) {
 
 		int[][] gameState = currentState.getGameState();
-
+		
 		for (int a = 0; a < gameState.length + 1; a++) {
 
 			int player1Count = 0;
@@ -323,7 +334,7 @@ public class StateSpace {
 
 				int player = gameState[b][a];
 
-				int[] playerCounts = addPlayerCount(player, player1Count, player2Count);
+				int[] playerCounts = addPlayerCount(player, player1Count, player2Count); // [0] = Player 1 & [1] = Player 2
 
 				player1Count = playerCounts[0];
 				player2Count = playerCounts[1];
@@ -341,8 +352,11 @@ public class StateSpace {
 
 	}
 
-	/** Check for horizontal win **/
-
+	/**
+	 * Check for horizontal win
+	 * @param currentState
+	 * @return 1 if Player 1 won, 2 if Player 2 won, or 0 if there are no horizontal wins.
+	 */
 	private int horizontalWinState(Node currentState) {
 
 		int[][] gameState = currentState.getGameState();
@@ -373,29 +387,28 @@ public class StateSpace {
 	}
 
 	/**
-	 * add number of counts to appropriate player
+	 * Add number of counts to appropriate player.
 	 * @param player
 	 * @param player1Count
 	 * @param player2Count
-	 * @return
+	 * @return 
 	 */
 	private int[] addPlayerCount(int player, int player1Count, int player2Count) {
 		int[] playerCounts = new int[2];
 
 		if (player == 2) {
-			player2Count++;
-			playerCounts[0] = 0;
-			playerCounts[1] = player2Count;
-
+			player2Count++; 
+			playerCounts[0] = 0; 			// Set player 1s count to 0 since the tile alternated
+			playerCounts[1] = player2Count; // Start or continue the count for player 2
 		}
 
 		else if (player == 1) {
 			player1Count++;
-			playerCounts[0] = player1Count;
-			playerCounts[1] = 0;
+			playerCounts[0] = player1Count; // Start or continue the count for player 1
+			playerCounts[1] = 0; 			// Set player 2s count to 0 since the tile alternated
 
 		} else {
-			playerCounts[0] = 0;
+			playerCounts[0] = 0;			// If the current tile is not occupied, reset both player's counts.
 			playerCounts[1] = 0;
 
 		}
