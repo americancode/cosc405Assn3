@@ -212,9 +212,7 @@ public class Game {
 		play = graph.getBotMove();
 		
 		if(currentGameState.getPNTBF() == true) {
-			if(validateMove(currentGameState.getPositionNeededToBeFilled())) {
-				play = currentGameState.getPositionNeededToBeFilled();
-			}
+			play = currentGameState.getPositionNeededToBeFilled()[1];
 		}
 		
 		if (validateMove(play)) {

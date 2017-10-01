@@ -14,7 +14,7 @@ public class Node implements Comparable{
 	private LinkedList<Node> childrenList; //a list of all the children of this node
 	private LinkedList<Integer> currentIndex; //a list of current indices for the the rows
 	private LinkedList<Integer> pathToNode; //a list of indices that correspond to a path of children 
-	private int positionNeededToBeFilled;
+	private int[] positionNeededToBeFilled;
 	private Boolean pNTBF = false; 
 	
 	/**
@@ -148,7 +148,7 @@ public class Node implements Comparable{
 		return isRootNode;
 	}
 	
-	public void setPositionNeededToBeFilled(int pos) {
+	public void setPositionNeededToBeFilled(int[] pos) {
 		this.positionNeededToBeFilled = pos;
 		pNTBF = true;
 	}
@@ -202,7 +202,7 @@ public class Node implements Comparable{
 		return playerNumber;
 	}
 	
-	public int getPositionNeededToBeFilled() {
+	public int[] getPositionNeededToBeFilled() {
 		return positionNeededToBeFilled;
 	}
 
