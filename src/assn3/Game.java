@@ -118,20 +118,9 @@ public class Game {
 			getAndApplyMove();
 		} else if(win == 1) {
 			JOptionPane.showMessageDialog(null, "Player 1  WON!!");
-		} else if(win == 2){
+		} else {
 			JOptionPane.showMessageDialog(null, "AI WON!!");
-		} //else if(win == 3) { // This means Player 1 has 3 in a row
-//			// Try to fill position if it is valid
-//			// If it is not valid, then maybe just call playAgain();
-//		  // col = currentGameState.getPositionNeededToBeFilled();
-//			col = getUserMove();
-//		} else if(win == 4) { // This means Player 2 has 3 in a row
-//			
-//			col = currentGameState.getPositionNeededToBeFilled();
-//			this.ui.applyMove(row, col, playerNum);
-//			updateState(row, col, getPlayerInt(this.usersTurn));
-//			
-//		}
+		} 
 		playAgain();
 	}
 
@@ -213,6 +202,7 @@ public class Game {
 		
 		if(currentGameState.getPNTBF() == true) {
 			play = currentGameState.getPositionNeededToBeFilled()[1];
+			currentGameState.setPNTBF(false);
 		}
 		
 		if (validateMove(play)) {
