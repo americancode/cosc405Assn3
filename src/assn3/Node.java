@@ -25,7 +25,6 @@ public class Node implements Comparable{
 		this.childrenList = new LinkedList<Node>();
 		this.currentIndex = new LinkedList<Integer>();
 		this.parent = null;
-		
 		for(int i = 0; i < 7; i ++) {
 			this.currentIndex.add(0);
 		}
@@ -53,14 +52,29 @@ public class Node implements Comparable{
 		this.currentIndex = new LinkedList<Integer>();
 		this.childrenList = new LinkedList<Node>();
 		this.pathToNode = new LinkedList<Integer>();
-		this.currentIndex.addAll(parent.getCurrentIndex()); // setting the parent list of indexes to the child list of indexes
-		this.pathToNode.addAll(parent.getPathToNode());
-		this.playerNumber = negatePlayer(parent.getPlayerNumber()); // set the levels so that the children's plays are played by the opposite of the parent
+		this.currentIndex = new LinkedList<Integer>(); // setting the parent list of indexes to the child list of indexes
+		this.currentIndex = new LinkedList<Integer>();
+		this.currentIndex.addAll(parent.currentIndex);
+		this.pathToNode.addAll(parent.pathToNode);
+		this.playerNumber = negatePlayer(parent.playerNumber); // set the levels so that the children's plays are played by the opposite of the parent
+	}
+	public Node() {
+		this.isRootNode = true;
+		this.childrenList = new LinkedList<Node>();
+		this.currentIndex = new LinkedList<Integer>();
+		this.parent = null;
 		for(int i = 0; i < 7; i ++) {
 			this.currentIndex.add(0);
 		}
-	}
-	public Node() {
+		
+		this.gameState = new int[6][7];
+		//initialize with an empty game state
+		for(int a = 0; a < this.gameState.length; a++) {
+			for(int b = 0; b < this.gameState[a].length; b++) {
+				this.gameState[a][b] = 0;
+			}
+		}
+		this.pathToNode = new LinkedList<Integer>();
 		
 	}
 	
@@ -75,7 +89,7 @@ public class Node implements Comparable{
 		for(int i = 0; i < 7; i++) {
 			Node tempNode = new Node(this);
 			if (validateMove(i)) { // if the proposed move [1-6] creates a possible game state add it to the list
-				tempNode.gameState = createState(i, tempNode.getPlayerNumber());
+				tempNode.gameState = createState(i, tempNode.playerNumber);
 				int row = tempNode.currentIndex.get(i);
 				int newRow = row + 1;
 				tempNode.currentIndex.set(i, newRow);
@@ -96,7 +110,7 @@ public class Node implements Comparable{
 	 * @param col
 	 * @return
 	 */
-	private boolean validateMove(int col) {
+	public boolean validateMove(int col) {
 		int filled = this.currentIndex.get(col);
 		if (filled < 6) {
 			return true;
@@ -104,6 +118,23 @@ public class Node implements Comparable{
 			return false;
 		}	
 	}
+	
+	public boolean applyMove(int col, int playerNum) {
+		if (validateMove(col)) {
+			int row = this.currentIndex.get(col);
+			this.currentIndex.set(col, row+1); //set the next index
+			this.gameState[row][col] = playerNum;
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public int getUIRow(int col) {
+		return this.currentIndex.get(col);
+	}
+	
+	
 	
 	private int negatePlayer(int player) {
 		if (player == 1) {
@@ -114,7 +145,7 @@ public class Node implements Comparable{
 	}
 	
 	private int[][] createState(int col, int player) {
-		int[][]	state = new int[this.gameState.length][];
+		int[][]	state = new int[6][7];
 		for(int i = 0; i < this.gameState.length; i++) {
 		    state[i] = this.gameState[i].clone();
 		}

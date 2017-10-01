@@ -19,8 +19,7 @@ public class Game {
 	private UserInterface ui = null;
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
-	private LinkedList<Integer> currentIndex;
-	public static final boolean TESTING = false; // global var for testing console printing
+	public static final boolean TESTING = true; // global var for testing console printing
 	
 	
 	/**
@@ -28,11 +27,7 @@ public class Game {
 	 */
 	public Game() {
 		this.ui = new UserInterface();
-		this.currentIndex = new LinkedList<Integer>();
-		for(int i=0; i < 7; i++) {
-			currentIndex.add(0);
-		}
-
+		this.currentGameState = new Node();
 	}
 	
 	/**
@@ -71,7 +66,7 @@ public class Game {
 		} else {
 			col = 3; // Maybe some thing else for the first bot move????
 		}
-		int row = generateRow(col);
+		int row = this.currentGameState.getUIRow(col);
 
 		int playerNum = 0;
 		if (usersTurn) {
@@ -79,8 +74,7 @@ public class Game {
 		}
 		//apply move to the UI
 		this.ui.applyMove(row, col, playerNum);
-		this.currentGameState = new Node(col, getPlayerInt(this.usersTurn));
-		updateState(row, col, getPlayerInt(this.usersTurn));
+		this.currentGameState.applyMove(col, getPlayerInt(this.usersTurn));
 		this.usersTurn = !this.usersTurn;
 		getAndApplyMove();
 		
@@ -96,14 +90,14 @@ public class Game {
 		} else {
 			col = getBotMove();
 		}
-		int row = generateRow(col);
+		int row = this.currentGameState.getUIRow(col);
 
 		int playerNum = 0;
 		if (usersTurn) {
 			playerNum = 1;
 		}
 		this.ui.applyMove(row, col, playerNum);
-		updateState(row, col, getPlayerInt(this.usersTurn));
+		this.currentGameState.applyMove(col, getPlayerInt(this.usersTurn));
 
 		this.usersTurn = !this.usersTurn;
 		if (TESTING) {
@@ -185,7 +179,7 @@ public class Game {
 				p1 = true;
 				column = Integer.parseInt(input);
 			}
-			if (validateMove(column)) {
+			if (this.currentGameState.validateMove(column)) {
 				p2 = true;	
 			}
 			
@@ -199,16 +193,16 @@ public class Game {
 	public int getBotMove(){
 		boolean goodInput = false;
 		int play = 0;
-		StateSpace graph = new StateSpace(this.currentGameState, getPlayerInt(this.usersTurn));
+		StateSpace graph = new StateSpace(this.currentGameState);
 		play = graph.getBotMove();
 		
-		if (validateMove(play)) {
+		if (this.currentGameState.validateMove(play)) {
 			return play;
 		}else {
 			
 			while (!goodInput) {
 				play = (int) (Math.random() * 7);
-				if (validateMove(play)) {
+				if (this.currentGameState.validateMove(play)) {
 					goodInput = true;
 				}
 			}
@@ -223,26 +217,6 @@ public class Game {
 		return play;
 	}
 
-	/** 
-	 * A pre-validation method to validate the player BEFORE generate row is called
-	 * @param col
-	 * @return
-	 */
-	private boolean validateMove(int col) {
-		int filled = this.currentIndex.get(col);
-		if (filled < 6) {
-			return true;
-		}else {
-			return false;
-		}	
-	}
-	
-	private int generateRow(int col) {
-		int row = this.currentIndex.get(col);
-		int newRow = row + 1;
-		this.currentIndex.set(col, newRow); //set the next index
-		return row;
-	}
 	
 	private int getPlayerInt(boolean usersTurn) {
 		if (usersTurn) {
@@ -252,12 +226,7 @@ public class Game {
 		}
 	}
 	
-	private void updateState(int row, int col, int playerNum) {
-		int[][] game = this.currentGameState.getGameState();
-		
-		game[row][col] = playerNum;
-		this.currentGameState.setGameState(game);
-	}
+	
 	
 	public void printState() {
 		int[][] game = this.currentGameState.getGameState();

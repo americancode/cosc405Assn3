@@ -14,9 +14,8 @@ public class StateSpace {
 	 * @param col
 	 * @param player
 	 */
-	public StateSpace(Node currentGameState, int currentPlayer) {
+	public StateSpace(Node currentGameState) {
 		this.root = currentGameState;
-		this.currentPlayer = currentPlayer;
 	}
 
 	public StateSpace() {
@@ -34,9 +33,10 @@ public class StateSpace {
 			System.out.println("_____________________________________________STATE CHOSEN BY AI_________________________________________________");
 			System.out.println("________________________________________________________________________________________________________________");
 			printState(node);
+			printChildren(this.root);
 		}
 		
-		return node.getPlayToNode();
+		return node.getPathToNode().get(0);
 	}
 
 	private Node bestFirstSearch() {
@@ -72,7 +72,7 @@ public class StateSpace {
 						int nodeDistance = node.getPathToNode().size();
 						if (nodeDistance < openNode) {
 							nodeInOpen.setPathToNode(node.getPathToNode());
-							if (!Game.TESTING) {
+							if (Game.TESTING) {
 								System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 								System.out.printf("++++++++++++++++++++++++++++++++++++Set Node in open list to a shorter path+++++++++++++++open node%d   ++++++++++++++++++++\n", openNode);
 								System.out.printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++child node%d   +++++++++++++++++++++\n", nodeDistance);
@@ -87,14 +87,14 @@ public class StateSpace {
 						if (nodeDistance < closedNodeDistance) {
 							openList.add(node);
 							closedList.remove(node);
-							if (!Game.TESTING) {
+							if (Game.TESTING) {
 								System.out.println("================================================================================================================================");
 								System.out.println("===================================Shorter Path: Node removed from closed and moved to open=====================================");
 								System.out.println("================================================================================================================================");
 							}
 						}
 					} else {
-						if (!Game.TESTING) {
+						if (Game.TESTING) {
 							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&I HIT THE ELSE BLOCK&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 							System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
@@ -107,7 +107,7 @@ public class StateSpace {
 					openList.remove(0);
 				}
 				Collections.sort(openList); 
-				if (!Game.TESTING) {
+				if (Game.TESTING) {
 					printList(openList);
 				}
 
@@ -119,7 +119,7 @@ public class StateSpace {
 	}
 
 	private boolean isGoal(Node node) {
-		if (winningState(node) == 2) {
+		if ((winningState(node) == 2) || (winningState(node) == 1)) {
 			return true;
 		}else {
 			return false;
@@ -136,20 +136,24 @@ public class StateSpace {
 		int heuristicVal = 0;
 		if (winningState(node) == 2) { // involved with a bot winning
 			heuristicVal = 20;
-			if (!Game.TESTING) {
+			if (Game.TESTING) {
 				System.out.println("**********************************FOUND WINNING STATE FOR BOT**************************************");
 			}
 
 		} else if (winningState(node) == 1) { //block this move
-			heuristicVal = 5; 
-			if (!Game.TESTING) {
+			if (node.getPathToNode().size() < 3) {
+				heuristicVal = 25;  // Set a very high value if a win is close in the tree otherwise ignore it
+			}else {
+				heuristicVal = 5;
+			}
+			if (Game.TESTING) {
 				System.out.println("**********************************FOUND WINNING STATE FOR USER**************************************");
 			}
 			
 		} else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
 			heuristicVal =  (int)(Math.random() * 10);
 			
-			if (!Game.TESTING) {
+			if (Game.TESTING) {
 				System.out.println("**********************************RANDOM STATE GETTING US CLOSER TO A WIN****************************");
 			}
 		}
@@ -173,6 +177,13 @@ public class StateSpace {
 				System.out.printf("       \n");
 			}
 			System.out.println("\n\n");
+		}
+	}
+	
+	
+	private void printSecondLevelChildren(Node node) {
+		for (int i = 0; i < node.getChildrenList().size(); i++) {
+			printChildren(node.getChildrenList().get(i));
 		}
 	}
 	
