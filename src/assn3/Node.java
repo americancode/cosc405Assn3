@@ -4,7 +4,7 @@ package assn3;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Node implements Comparable{
+public class Node implements Comparable<Object> {
 	private Node parent; // a pointer to the parent node
 	private boolean isRootNode = false;
 	private int heuristicValue; //the heuristic value associated with this node
@@ -231,7 +231,7 @@ public class Node implements Comparable{
 	public boolean equals(Object obj) {
 		boolean testVal = false;
 		Node node = ((Node)obj);
-		int [][] gameState = node.getGameState();
+		// int [][] gameState = node.getGameState();
 		if(Arrays.deepEquals(node.getGameState(), this.gameState)) {
 			testVal = true;
 		} else {

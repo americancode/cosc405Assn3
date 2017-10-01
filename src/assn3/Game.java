@@ -2,17 +2,12 @@ package assn3;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.LinkedList;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  * This class should be where the game is controlled.
- * 
  */
-
-import javax.swing.JOptionPane;
-
-
 public class Game {
 	//Attributes of the game class
 	private boolean usersTurn = false;
@@ -20,7 +15,6 @@ public class Game {
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
 	public static final boolean TESTING = true; // global var for testing console printing
-	
 	
 	/**
 	 * Constructor for the game class
@@ -59,7 +53,6 @@ public class Game {
 			} 
 		}
 		
-
 		int col;
 		if (usersTurn) {
 			col = getUserMove();
@@ -77,11 +70,11 @@ public class Game {
 		this.currentGameState.applyMove(col, getPlayerInt(this.usersTurn));
 		this.usersTurn = !this.usersTurn;
 		getAndApplyMove();
-		
 	}
 		
 	/**
-	 * 
+	 * If it is the users turn, call the getUserMove method otherwise, call the getBotMove method.
+	 * Once it has the next move, it applys it.
 	 */
 	public void getAndApplyMove() {
 		int col;
@@ -159,7 +152,6 @@ public class Game {
 		boolean goodInput = false;
 		int column = 0;
 		while (!goodInput) {
-			
 			// Create JOptionPane
 			JOptionPane optionPane = new JOptionPane("Enter your move 0 to 6", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
 			optionPane.setWantsInput(true);
@@ -181,15 +173,16 @@ public class Game {
 			}
 			if (this.currentGameState.validateMove(column)) {
 				p2 = true;	
-			}
-			
+			}	
 			goodInput = (p1 && p2);
 		}
-		
-		
 		return column;
 	}
 	
+	/**
+	 * Get the bots next move.
+	 * @return The bots next move.
+	 */
 	public int getBotMove(){
 		boolean goodInput = false;
 		int play = 0;
@@ -198,8 +191,7 @@ public class Game {
 		
 		if (this.currentGameState.validateMove(play)) {
 			return play;
-		}else {
-			
+		} else {
 			while (!goodInput) {
 				play = (int) (Math.random() * 7);
 				if (this.currentGameState.validateMove(play)) {
@@ -210,24 +202,26 @@ public class Game {
 			if (TESTING) {
 				System.out.println("AI gave BAD PLAY. a random on was generated");
 			}
-
-			
 		}
-
 		return play;
 	}
 
-	
+	/**
+	 * Return the players number based on the usersTurn boolean.
+	 * @param usersTurn
+	 * @return 1 if usersTurn is false or 2 if usersTurn is true
+	 */
 	private int getPlayerInt(boolean usersTurn) {
 		if (usersTurn) {
 			return 1;
-		}else {
+		} else {
 			return 2;
 		}
 	}
-	
-	
-	
+
+	/**
+	 * This method prints the current game state.
+	 */
 	public void printState() {
 		int[][] game = this.currentGameState.getGameState();
 		System.out.println("________________________________________________________________________________________________________________");
@@ -242,5 +236,4 @@ public class Game {
 		}
 		System.out.println("\n\n");
 	}
-	
 }
