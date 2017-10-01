@@ -25,7 +25,6 @@ public class Game {
 	
 	/**
 	 * Constructor for the game class
-	 * 
 	 */
 	public Game() {
 		this.ui = new UserInterface();
@@ -87,10 +86,9 @@ public class Game {
 		
 	}
 		
-		
-		
-	
-	
+	/**
+	 * 
+	 */
 	public void getAndApplyMove() {
 		int col;
 		if (usersTurn) {
@@ -225,8 +223,8 @@ public class Game {
 		return play;
 	}
 
-	/** a pre-validation method to validate the player BEFORE generate row is called
-	 * 
+	/** 
+	 * A pre-validation method to validate the player BEFORE generate row is called
 	 * @param col
 	 * @return
 	 */
@@ -261,7 +259,6 @@ public class Game {
 		this.currentGameState.setGameState(game);
 	}
 	
-	
 	public void printState() {
 		int[][] game = this.currentGameState.getGameState();
 		System.out.println("________________________________________________________________________________________________________________");
@@ -277,8 +274,4 @@ public class Game {
 		System.out.println("\n\n");
 	}
 	
-	
-	
-	
-
 }

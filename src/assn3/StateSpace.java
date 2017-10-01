@@ -24,7 +24,7 @@ public class StateSpace {
 	}
 	
 	public int getBotMove() {
-		Node node = bestFirstSearch();
+		Node node = bestFirstSearch(); 
 		if (node == null) {
 			System.out.println("Node was null");
 			return 0;
@@ -47,14 +47,14 @@ public class StateSpace {
 		while (openList.size() > 0) {
 			Node X = openList.get(0);
 
-			if (isGoal(X)) {
+			if (isGoal(X)) { // See if the current state is a winning state for the bot.
 				return X;
 			} else {
 				X.getAndSetChildren();
 				if (Game.TESTING) {
 					printChildren(X);
 				}
-				LinkedList<Node> childList= X.getChildrenList();
+				LinkedList<Node> childList = X.getChildrenList();
 				Node node = null;
 				for (int i = 0; i < childList.size(); i++) {
 					if (!openList.contains(childList.get(i)) && !closedList.contains(childList.get(i))) {
@@ -117,8 +117,6 @@ public class StateSpace {
 
 		return null;
 	}
-
-
 
 	private boolean isGoal(Node node) {
 		if (winningState(node) == 2) {
