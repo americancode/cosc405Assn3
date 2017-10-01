@@ -36,7 +36,7 @@ public class StateSpace {
 			printChildren(this.root);
 		}
 		
-		return node.getPathToNode().get(0);
+		return node.getPlayToNode();
 	}
 
 	private Node bestFirstSearch() {
@@ -142,7 +142,7 @@ public class StateSpace {
 
 		} else if (winningState(node) == 1) { //block this move
 			if (node.getPathToNode().size() < 3) {
-				heuristicVal = 25;  // Set a very high value if a win is close in the tree otherwise ignore it
+				heuristicVal = 20;  // Set a very high value if a win is close in the tree otherwise ignore it
 			}else {
 				heuristicVal = 5;
 			}
