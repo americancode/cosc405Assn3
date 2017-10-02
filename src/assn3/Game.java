@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
- * This class should be where the game is controlled.
+ * This class controls the primary game like controlling turns and processing plays
  */
 public class Game {
 	//Attributes of the game class
@@ -14,7 +14,7 @@ public class Game {
 	private UserInterface ui = null;
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
-	public static final boolean TESTING = true; // global var for testing console printing
+	public static final boolean TESTING = true; // global variable for testing console printing
 	
 	/**
 	 * Constructor for the game class
@@ -74,7 +74,7 @@ public class Game {
 		
 	/**
 	 * If it is the users turn, call the getUserMove method otherwise, call the getBotMove method.
-	 * Once it has the next move, it applys it.
+	 * Once it has the next move, it applies it.
 	 */
 	public void getAndApplyMove() {
 		int col;
@@ -101,14 +101,20 @@ public class Game {
 		int win = blankSpace.winningState(this.currentGameState);
 
 		//Check for a win
-		if (win == 0) {
-			getAndApplyMove();
-		} else if (win == 1) {
-			JOptionPane.showMessageDialog(null, "Player 1  WON!!");
-		} else {
-			JOptionPane.showMessageDialog(null, "Player 2  WON!!");
+		if (!this.currentGameState.checkTie()) {
+			if (win == 0) {
+				getAndApplyMove();
+			} else if (win == 1) {
+				JOptionPane.showMessageDialog(null, "Player 1  WON!!");
+			} else {
+				JOptionPane.showMessageDialog(null, "Player 2  WON!!");
+			}
+			playAgain();
+		}else {
+			JOptionPane.showMessageDialog(null, "Tie! Nobody won!");
+			playAgain();
 		}
-		playAgain();
+		
 	}
 
 

@@ -118,6 +118,22 @@ public class Node implements Comparable<Object> {
 			return false;
 		}	
 	}
+	public boolean checkTie() {
+		boolean isTie = false;
+		int count = 0;
+		
+		for(int i = 0; i < this.currentIndex.size(); i ++) {
+			if (this.currentIndex.get(i) == 6) {
+				count++;
+			}
+		}
+		
+		if (count == 7) {
+			isTie = true;
+		}
+		
+		return isTie;
+	}
 	
 	public boolean applyMove(int col, int playerNum) {
 		if (validateMove(col)) {
