@@ -151,7 +151,13 @@ public class StateSpace {
 			}
 			
 		} else { // a value to indicate a move that gets us closer to winning.  IE tiles in a row
-			heuristicVal =  (int)(Math.random() * 10);
+			
+			if (node.getPathToNode().size() < 3) { // Forcing the algorithm to expand the immediate children
+				heuristicVal = 15;
+			}else {
+				heuristicVal =  (int)(Math.random() * 10);
+
+			}
 			
 			if (Game.TESTING) {
 				System.out.println("**********************************RANDOM STATE GETTING US CLOSER TO A WIN****************************");
