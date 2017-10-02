@@ -79,4 +79,12 @@ public class UserInterface extends JFrame {
 		this.circlePanels[row][column].setDraw(true);
 	}
 	
+	public void resetBoard() {
+		for(int i = 0; i < this.circlePanels.length; i++) {
+			for (int j = 0; j < this.circlePanels[i].length; j++) {
+				this.circlePanels[i][j].setDraw(false);
+			}
+		}
+	}
+	
 }

@@ -133,8 +133,9 @@ public class Game {
 			usrInput = usrInput.toLowerCase();
 			
 			if (usrInput.equals("y")) {
-				Game g = new Game();
-				g.startGame();
+				this.currentGameState = new Node();
+				this.ui.resetBoard();
+				startGame();
 				break;
 			} else if (usrInput.equals("n")) {
 		    	System.exit(0);
