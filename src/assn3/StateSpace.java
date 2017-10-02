@@ -33,7 +33,7 @@ public class StateSpace {
 			System.out.println("_____________________________________________STATE CHOSEN BY AI_________________________________________________");
 			System.out.println("________________________________________________________________________________________________________________");
 			printState(node);
-			printChildren(this.root);
+			printStateNumber();
 		}
 		
 		return node.getPlayToNode();
@@ -184,6 +184,12 @@ public class StateSpace {
 			}
 			System.out.println("\n\n");
 		}
+	}
+	
+	private void printStateNumber() {
+		System.out.println("================================================================================================================================");
+		System.out.printf("===================================THE NUMBER OF STATES GENERATED IS:  %d =======================================================\n", Node.totalStates);
+		System.out.println("================================================================================================================================");
 	}
 	
 	

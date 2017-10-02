@@ -14,36 +14,10 @@ public class Node implements Comparable<Object> {
 	private LinkedList<Node> childrenList; //a list of all the children of this node
 	private LinkedList<Integer> currentIndex; //a list of current indices for the the rows
 	private LinkedList<Integer> pathToNode; //a list of indices that correspond to a path of children 
+	public static long totalStates;
 	
 	
-	/**
-	 * The constructor for the state space START ONLY
-	 * @param startingGameState
-	 */
-	public Node(int col, int player) {
-		this.isRootNode = true;
-		this.childrenList = new LinkedList<Node>();
-		this.currentIndex = new LinkedList<Integer>();
-		this.parent = null;
-		for(int i = 0; i < 7; i ++) {
-			this.currentIndex.add(0);
-		}
-		
-		this.gameState = new int[6][7];
-		//initialize with an empty game state
-		for(int a = 0; a < this.gameState.length; a++) {
-			for(int b = 0; b < this.gameState[a].length; b++) {
-				this.gameState[a][b] = 0;
-			}
-		}
-		
-		this.gameState[0][col] = player; // set the first play of the game
-		this.currentIndex.set(col, 1); // set the row index for the next play for that column
-		this.pathToNode = new LinkedList<Integer>();
-		this.playToNode = col;
-		this.playerNumber = player; //set who played it
-		
-	}
+
 	
 	/*
 	 * Constructor for generating children based on the parent node
@@ -96,6 +70,7 @@ public class Node implements Comparable<Object> {
 				tempNode.pathToNode.add(childList.size());
 				tempNode.playToNode = i;
 				tempNode.parent = this;
+				Node.totalStates++;
 				childList.add(tempNode);
 			}
 			
