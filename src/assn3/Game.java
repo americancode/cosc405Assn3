@@ -14,7 +14,7 @@ public class Game {
 	private UserInterface ui = null;
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
-	public static final boolean TESTING = true; // global variable for testing console printing
+	public static final boolean TESTING = false; // global variable for testing console printing
 	
 	/**
 	 * Constructor for the game class

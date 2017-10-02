@@ -1,5 +1,10 @@
 package assn3;
 
+/**
+ * 
+ * @author Nathnaniel Churchill
+ *
+ */
 public class Driver {
 
 	public static void main(String[] args) {
