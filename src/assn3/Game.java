@@ -101,19 +101,22 @@ public class Game {
 		int win = blankSpace.winningState(this.currentGameState);
 
 		//Check for a win
-		if (!this.currentGameState.checkTie()) {
-			if (win == 0) {
-				getAndApplyMove();
-			} else if (win == 1) {
-				JOptionPane.showMessageDialog(null, "Player 1  WON!!");
-			} else {
-				JOptionPane.showMessageDialog(null, "Player 2  WON!!");
+		if (win == 0) {
+			getAndApplyMove();
+		} else if (win == 1) {
+			JOptionPane.showMessageDialog(null, "Player 1  WON!!");
+			if (this.currentGameState.checkTie()) {
+				JOptionPane.showMessageDialog(null, "Tie! Nobody won!");
+				playAgain();
 			}
-			playAgain();
-		}else {
-			JOptionPane.showMessageDialog(null, "Tie! Nobody won!");
-			playAgain();
-		}
+		} else {
+			JOptionPane.showMessageDialog(null, "Player 2  WON!!");
+			if (this.currentGameState.checkTie()) {
+				JOptionPane.showMessageDialog(null, "Tie! Nobody won!");
+				playAgain();
+			}
+		}		
+		playAgain();
 		
 	}
 
