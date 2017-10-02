@@ -14,6 +14,7 @@ public class UserInterface extends JFrame {
 	public UserInterface() {
 		initCircles();
 		JFrame f = new JFrame();
+		f.setTitle("Connect Four");
 		f.add(gridPanel);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
