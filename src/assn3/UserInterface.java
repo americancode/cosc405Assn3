@@ -3,6 +3,13 @@ package assn3;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * This class is User Interface
+ * 
+ * @author Nathnaniel Churchill, Eric Olechovski, Michael Baumgartner, Dan Richmond
+ *
+ */
+
 public class UserInterface extends JFrame {
 
 	private static final int ROWS = 6;

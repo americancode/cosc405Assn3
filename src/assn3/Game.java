@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
- * This class controls the primary game like controlling turns and processing plays
+ * This class controls the primary game. like controlling turns and processing plays
  */
 public class Game {
 	//Attributes of the game class
@@ -15,7 +15,7 @@ public class Game {
 	//This is currently used for the UI but may be able to use it other places
 	private Node currentGameState;
 	public static final boolean TESTING = false; // global variable for testing console printing
-	
+
 	/**
 	 * Constructor for the game class
 	 */
@@ -23,7 +23,7 @@ public class Game {
 		this.ui = new UserInterface();
 		this.currentGameState = new Node();
 	}
-	
+
 	/**
 	 * This method starts the game
 	 */
@@ -41,18 +41,18 @@ public class Game {
 			dialog.setLocation(dialog.getLocation());
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
-			String usrInput = (String) optionPane.getInputValue();			
+			String usrInput = (String) optionPane.getInputValue();
 			usrInput = usrInput.toLowerCase();
-			
+
 			if (usrInput.equals("y")) {
 				usersTurn = true;
 				break;
 			} else if (usrInput.equals("n")){
 				usersTurn = false;
 				break;
-			} 
+			}
 		}
-		
+
 		int col;
 		if (usersTurn) {
 			col = getUserMove();
@@ -71,10 +71,10 @@ public class Game {
 		this.usersTurn = !this.usersTurn;
 		getAndApplyMove();
 	}
-		
+
 	/**
 	 * If it is the users turn, call the getUserMove method otherwise, call the getBotMove method.
-	 * Once it has the next move, it applies it.
+	 * Once it has the next move, it applies it to the UI as well as the stateSpace.
 	 */
 	public void getAndApplyMove() {
 		int col;
@@ -115,14 +115,14 @@ public class Game {
 				JOptionPane.showMessageDialog(null, "Tie! Nobody won!");
 				playAgain();
 			}
-		}		
+		}
 		playAgain();
-		
+
 	}
 
 
 	/**
-	 * Asks user if they want to play again. If so, it creates a new game.
+	 * Asks user if they want to play again. If so, it resets the UI and Creates a new starting state.
 	 */
 	private void playAgain() {
 		for(;;) {
@@ -138,9 +138,9 @@ public class Game {
 			dialog.setLocation(dialog.getLocation());
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
-			String usrInput = (String) optionPane.getInputValue();			
+			String usrInput = (String) optionPane.getInputValue();
 			usrInput = usrInput.toLowerCase();
-			
+
 			if (usrInput.equals("y")) {
 				this.currentGameState = new Node();
 				this.ui.resetBoard();
@@ -149,13 +149,13 @@ public class Game {
 			} else if (usrInput.equals("n")) {
 		    	System.exit(0);
 				break;
-			} 
+			}
 		}
 	}
-	
+
 	/**
 	 * Get an integer from the user, Nothing else
-	 * 
+	 *
 	 * @return the integer from the user
 	 */
 	public int getUserMove() {
@@ -173,7 +173,7 @@ public class Game {
 			});
 			dialog.setLocation(100, 220);
 			dialog.setVisible(true);
-			String input = (String) optionPane.getInputValue();			
+			String input = (String) optionPane.getInputValue();
 
 			boolean p1 = false;
 			boolean p2 = false;
@@ -182,15 +182,15 @@ public class Game {
 				column = Integer.parseInt(input);
 			}
 			if (this.currentGameState.validateMove(column)) {
-				p2 = true;	
-			}	
+				p2 = true;
+			}
 			goodInput = (p1 && p2);
 		}
 		return column;
 	}
-	
+
 	/**
-	 * Get the bots next move.
+	 * Get the AI bot's next move.
 	 * @return The bots next move.
 	 */
 	public int getBotMove(){
@@ -198,7 +198,7 @@ public class Game {
 		int play = 0;
 		StateSpace graph = new StateSpace(this.currentGameState);
 		play = graph.getBotMove();
-		
+
 		if (this.currentGameState.validateMove(play)) {
 			return play;
 		} else {
@@ -208,7 +208,7 @@ public class Game {
 					goodInput = true;
 				}
 			}
-			
+
 			if (TESTING) {
 				System.out.println("AI gave BAD PLAY. a random on was generated");
 			}
@@ -230,7 +230,7 @@ public class Game {
 	}
 
 	/**
-	 * This method prints the current game state.
+	 * This method prints the current game state. Used for testing
 	 */
 	public void printState() {
 		int[][] game = this.currentGameState.getGameState();
