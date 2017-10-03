@@ -1,8 +1,13 @@
 package assn3;
 
-
 import java.util.Arrays;
 import java.util.LinkedList;
+/**
+ * This class represents a game state and its related data.
+ * 
+ * @author Nathaniel Churchill, Michael Baumgartner, Eric Olechovski, Dan Richmond
+ *
+ */
 
 public class Node implements Comparable<Object> {
 	private Node parent; // a pointer to the parent node
@@ -13,12 +18,32 @@ public class Node implements Comparable<Object> {
 	private int[][] gameState; // the current game state represented as a 2D matrix
 	private LinkedList<Node> childrenList; //a list of all the children of this node
 	private LinkedList<Integer> currentIndex; //a list of current indices for the the rows
-	private LinkedList<Integer> pathToNode; //a list of indices that correspond to a path of children 
-	public static long totalStates;
-	
-	
+	private LinkedList<Integer> pathToNode; //a list of indices that correspond to a path of children
+	public static long totalStates; //an easy way to assess how many nodes were generated
 
-	
+	/**
+	* Primary constructor for the node
+	*/
+	public Node() {
+		this.isRootNode = true;
+		this.childrenList = new LinkedList<Node>();
+		this.currentIndex = new LinkedList<Integer>();
+		this.pathToNode = new LinkedList<Integer>();
+		this.parent = null;
+		for(int i = 0; i < 7; i ++) {
+			this.currentIndex.add(0);
+		}
+
+		this.gameState = new int[6][7];
+		//initialize with an empty game state
+		for(int a = 0; a < this.gameState.length; a++) {
+			for(int b = 0; b < this.gameState[a].length; b++) {
+				this.gameState[a][b] = 0;
+			}
+		}
+	}
+
+
 	/*
 	 * Constructor for generating children based on the parent node
 	 */
@@ -32,31 +57,13 @@ public class Node implements Comparable<Object> {
 		this.pathToNode.addAll(parent.pathToNode);
 		this.playerNumber = negatePlayer(parent.playerNumber); // set the levels so that the children's plays are played by the opposite of the parent
 	}
-	public Node() {
-		this.isRootNode = true;
-		this.childrenList = new LinkedList<Node>();
-		this.currentIndex = new LinkedList<Integer>();
-		this.parent = null;
-		for(int i = 0; i < 7; i ++) {
-			this.currentIndex.add(0);
-		}
-		
-		this.gameState = new int[6][7];
-		//initialize with an empty game state
-		for(int a = 0; a < this.gameState.length; a++) {
-			for(int b = 0; b < this.gameState[a].length; b++) {
-				this.gameState[a][b] = 0;
-			}
-		}
-		this.pathToNode = new LinkedList<Integer>();
-		
-	}
-	
+
+
 
 	/**
 	 * Generates the children on the given node
 	 * @param currentPlayer / the opposite of the parent node player.  The current player for generated child nodes
-	 * @return
+	 *
 	 */
 	public void getAndSetChildren() {
 		LinkedList<Node> childList = new LinkedList<Node>();
@@ -73,17 +80,17 @@ public class Node implements Comparable<Object> {
 				Node.totalStates++;
 				childList.add(tempNode);
 			}
-			
+
 		}
 
 		this.childrenList = childList;
 	}
-	
-	/**  pre-validation method to validate the player 
+
+	/**  pre-validation method to validate the player
 	 * BEFORE generating the row and incrementing currentIndex
-	 * 
+	 *
 	 * @param col
-	 * @return
+	 * @return true if a valid move / false otherwise
 	 */
 	public boolean validateMove(int col) {
 		int filled = this.currentIndex.get(col);
@@ -91,25 +98,37 @@ public class Node implements Comparable<Object> {
 			return true;
 		}else {
 			return false;
-		}	
+		}
 	}
+	/**
+	* This method checks the state for a tie
+	*
+	* @return true if the state is a tie / false otherwise
+	*/
 	public boolean checkTie() {
 		boolean isTie = false;
 		int count = 0;
-		
+
 		for(int i = 0; i < this.currentIndex.size(); i ++) {
 			if (this.currentIndex.get(i) == 6) {
 				count++;
 			}
 		}
-		
+
 		if (count == 7) {
 			isTie = true;
 		}
-		
+
 		return isTie;
 	}
-	
+
+	/**
+	 * This function applies a move the current game state
+	 * 
+	 * @param col the column in which the move was made
+	 * @param playerNum the number of the player who played it
+	 * @return if the move was valid and applied return true / otherwise false
+	 */
 	public boolean applyMove(int col, int playerNum) {
 		if (validateMove(col)) {
 			int row = this.currentIndex.get(col);
@@ -121,12 +140,21 @@ public class Node implements Comparable<Object> {
 		}
 	}
 	
+	/**
+	 * This function gets the row in which to apply the move for the UI
+	 * @param col the column in which the play is made
+	 * @return the row
+	 */
 	public int getUIRow(int col) {
 		return this.currentIndex.get(col);
 	}
-	
-	
-	
+
+
+	/**
+	 * Negates the player 
+	 * @param player
+	 * @return the negated player
+	 */
 	private int negatePlayer(int player) {
 		if (player == 1) {
 			return 2;
@@ -134,7 +162,7 @@ public class Node implements Comparable<Object> {
 			return 1;
 		}
 	}
-	
+
 	private int[][] createState(int col, int player) {
 		int[][]	state = new int[6][7];
 		for(int i = 0; i < this.gameState.length; i++) {
@@ -176,7 +204,7 @@ public class Node implements Comparable<Object> {
 	public void setHeuristicValue(int heuristicValue) {
 		this.heuristicValue = heuristicValue;
 	}
-	
+
 	public Node getParent() {
 		return parent;
 	}
@@ -208,8 +236,8 @@ public class Node implements Comparable<Object> {
 	public void setCurrentIndex(LinkedList<Integer> currentIndex) {
 		this.currentIndex = currentIndex;
 	}
-	
-	
+
+
 	public int getPlayerNumber() {
 		return playerNumber;
 	}
@@ -233,9 +261,9 @@ public class Node implements Comparable<Object> {
 
 	/**
 	 * Compares a node passed in as a parameter with the current node.
-	 * 
+	 *
 	 * @param Object - the node to compare to the current node
-	 * @return 1 if the current node's heuristic is less than the node's that is passed into this method. 
+	 * @return 1 if the current node's heuristic is less than the node's that is passed into this method.
 	 * -1 if the current node's heuristic is greater than the node's that is passed into this method.
 	 * 0 if the heuristics of the two nodes are equal.
 	 */
@@ -249,8 +277,8 @@ public class Node implements Comparable<Object> {
 		}else {
 			return 0;
 		}
-		
+
 	}
-	
-	
+
+
 }

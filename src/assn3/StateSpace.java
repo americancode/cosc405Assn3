@@ -3,10 +3,15 @@ package assn3;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-
+/**
+ * This class represents and handles the searching of the state space and the application
+ * of the best first search as well as the setting of the heuristic value
+ * 
+ * @author Nathaniel Churchill, Michael Baumgartner, Eric Olechovski, Dan Richmond
+ *
+ */
 public class StateSpace {
 	private Node root;
-	private int currentPlayer;
 
 	/**
 	 * constructor for the FIRST PLAY
@@ -22,6 +27,10 @@ public class StateSpace {
 		//Sole use is to access some of the public methods for detecting a win
 	}
 	
+	/**
+	 * This function gets the bot's move
+	 * @return an integer with the bot's move
+	 */
 	public int getBotMove() {
 		Node node = bestFirstSearch(); 
 		if (node == null) {
@@ -38,7 +47,11 @@ public class StateSpace {
 		
 		return node.getPlayToNode();
 	}
-
+	
+	/**
+	 * This method computes a best first search based on the given root node
+	 * @return the goal node
+	 */
 	private Node bestFirstSearch() {
 		ArrayList<Node> openList = new ArrayList<Node>();
 		LinkedList<Node> closedList = new LinkedList<Node>();
@@ -118,6 +131,11 @@ public class StateSpace {
 		return null;
 	}
 
+	/**
+	 * This function determines if a node is a goal
+	 * @param node
+	 * @return true if a goal / false otherwise
+	 */
 	private boolean isGoal(Node node) {
 		if ((winningState(node) == 2) || (winningState(node) == 1)) {
 			return true;
@@ -192,7 +210,10 @@ public class StateSpace {
 		System.out.println("================================================================================================================================");
 	}
 	
-	
+	/**
+	 * Prints the second level of children from the given node
+	 * @param node
+	 */
 	private void printSecondLevelChildren(Node node) {
 		for (int i = 0; i < node.getChildrenList().size(); i++) {
 			printChildren(node.getChildrenList().get(i));
