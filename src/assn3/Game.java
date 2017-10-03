@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 
 /**
  * This class controls the primary game. like controlling turns and processing plays
+ * 
+ * @author Nathnaniel Churchill, Eric Olechovski, Michael Baumgartner, Dan Richmond
  */
 public class Game {
 	//Attributes of the game class
